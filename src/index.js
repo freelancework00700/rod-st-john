@@ -9,8 +9,11 @@ function handlePdfClick(url) {
 function normalizePath(url) {
     let clean = url.replace(/^https?:\/\/localhost(:\d+)?\//, "/");
     if (clean.startsWith("../")) {
-        clean = "/clinical-resources/" + clean.replace(/^(\.\.\/)+/, "");
-    } else if (!clean.startsWith("/clinical-resources/")) {
+        clean = clean.replace(/^(\.\.\/)+/, "");
+        if (!clean.toLowerCase().startsWith("first-aid-guides")) {
+            clean = "/clinical-resources/" + clean;
+        }
+    } else if (!clean.startsWith("/clinical-resources/") && !clean.startsWith("/First-Aid-Guides/")) {
         clean = "/clinical-resources" + (clean.startsWith("/") ? "" : "/") + clean;
     }
     if (clean.toLowerCase().includes("/docs/")) {
