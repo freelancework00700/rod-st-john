@@ -1,0 +1,10 @@
+{
+  "appId": "com.example.rodstjohn",
+  "appName": "Rod St John",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  }
+}
