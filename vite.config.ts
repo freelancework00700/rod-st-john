@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
   root: './src',
@@ -7,4 +8,18 @@ export default defineConfig({
     minify: false,
     emptyOutDir: true,
   },
+  plugins: [
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'clinical-resources',
+          dest: '.'
+        },
+        {
+          src: 'First-Aid-Guides',
+          dest: '.'
+        }
+      ]
+    })
+  ]
 });
