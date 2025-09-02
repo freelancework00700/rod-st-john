@@ -1,10 +1,10 @@
 {
-  "appId": "com.example.rodstjohn",
-  "appName": "Rod St John",
   "webDir": "dist",
+  "appName": "St John Resources",
+  "appId": "au.com.stjohnwa.stjohnresource",
   "plugins": {
     "SplashScreen": {
-      "launchAutoHide": false
+      "launchAutoHide": true
     }
   }
 }
