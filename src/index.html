@@ -17,12 +17,13 @@
     <!-- Header -->
     <header class="app-header">
       <div class="toolbar">
+        <div id="backBtn" class="back-btn" onclick="goBack()" style="display:none;">&lt;</div>
         <h5 class="app-name"> ST JOHN RESOURCES </h5>
       </div>
     </header>
 
     <!-- Content -->
-    <main class="app-content">
+    <main id="content" class="app-content">
       <ul id="websiteList" class="website-list">
         <li onclick="loadPage('clinical-resources/index.html')">
           <a>Clinical Resources</a> 

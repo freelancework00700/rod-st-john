@@ -1,6 +1,11 @@
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
 
+let iframeHistory = [];
+let currentIndex = -1;
+
+const siteListingHTML = document.getElementById('content').innerHTML;
+
 function handlePdfClick(url) {
     const normalized = normalizePath(url);
     openPdfAndroid(normalized);
@@ -74,17 +79,31 @@ function blobToBase64(blob) {
 }
 
 function loadPage(url) {
+    const content = document.getElementById('content');
+    document.getElementById('backBtn').style.display = "inline-block";
+
     const iframe = document.createElement('iframe');
     iframe.src = url;
     iframe.style.width = '100%';
     iframe.style.height = '100%';
     iframe.style.border = 'none';
+    iframe.id = "mainIframe";
 
-    document.body.innerHTML = '';
-    document.body.appendChild(iframe);
+    content.innerHTML = '';
+    content.appendChild(iframe);
 
     iframe.onload = () => {
         try {
+            const currentUrl = iframe.contentWindow.location.href;
+
+            if (currentIndex === -1 || iframeHistory[currentIndex] !== currentUrl) {
+                iframeHistory = iframeHistory.slice(0, currentIndex + 1);
+                iframeHistory.push(currentUrl);
+                currentIndex++;
+            }
+
+            document.getElementById('backBtn').style.display = "inline-block";
+
             const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
             const pdfLinks = iframeDoc.querySelectorAll('a[href$=".pdf"], a[href*=".pdf?"]');
 
@@ -100,5 +119,21 @@ function loadPage(url) {
     };
 }
 
+function goBack() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        const prevUrl = iframeHistory[currentIndex];
+        
+        const iframe = document.getElementById("mainIframe");
+        iframe.contentWindow.location.href = prevUrl;
+    } else {
+        document.getElementById('content').innerHTML = siteListingHTML;
+        document.getElementById('backBtn').style.display = "none";
+
+        iframeHistory = [];
+        currentIndex = -1;
+    }
+}
+
 window.loadPage = loadPage;
-window.handlePdfClick = handlePdfClick;
+window.goBack = goBack;

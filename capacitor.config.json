@@ -5,6 +5,10 @@
   "plugins": {
     "SplashScreen": {
       "launchAutoHide": true
-    }
+        }
+  },
+  "server": {
+    "url": "http://127.0.0.1:18181",
+    "cleartext": true
   }
 }
