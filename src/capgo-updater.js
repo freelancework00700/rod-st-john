@@ -472,24 +472,28 @@ window.checkForUpdatesManually = async function() {
 
 // update version display in header
 function updateVersionDisplay(version = null) {
+  console.log("=====> updateVersionDisplay", version);
   const versionElement = document.querySelector('.app-version');
+  console.log("=====> versionElement", versionElement);
   if (versionElement) {
     versionElement.textContent = version || CURRENT_VERSION;
   }
+  console.log("=====> versionElement.textContent", versionElement.textContent);
 }
 
 // get current app version from capacitor updater
 async function getCurrentAppVersion() {
   try {
     const bundle = await CapacitorUpdater.current();
-    console.log("bundle", bundle);
-    
+    console.log("=====> bundle", bundle);
     if (bundle && bundle.version) {
+      console.log("=====> bundle.version", bundle.version);
       return bundle.version;
     }
   } catch (error) {
     console.log('Could not get current bundle version:', error);
   }
+  console.log("=====> CURRENT_VERSION", CURRENT_VERSION);
   return CURRENT_VERSION; // fallback to hardcoded version
 }
 
