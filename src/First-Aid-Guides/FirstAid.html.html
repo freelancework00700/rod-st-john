@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>St John WA - First Aid Guides</title>
+	<style>
+	   body {
+	       font-family: Arial, sans-serif;
+	       margin: 0;
+	       padding: 0;
+	   }
+
+	   #container {
+	       margin-left: 100px;
+	       margin-right: 100px;
+	       padding: 20px;
+	   }
+	   header {
+	       display: flex;
+	       align-items: center;
+	       justify-content: space-between;
+	       padding: 10px;
+	   }
+
+	   #logo {
+	       float: right;
+	       margin-right: 20px;
+	   }
+
+	   h1 {
+	       height: 77px;
+	       display: flex;
+	       align-items: center;
+	   }
+
+	   @media screen and (max-width: 992px) {
+	       h1 {
+	           height: initial;
+	       }
+	       #container {
+	           margin-left: 0;
+	           margin-right: 0;
+	           padding: 10px;
+	           max-width: 100%;
+	       }
+	       #logo {
+	           max-height: 80px;
+	           float: none;
+	           margin-right: 0;
+	           margin-bottom: 10px;
+	           content: url("../First-Aid-Guides/company-logo-2.png");
+	       }
+	       header {
+	           flex-direction: column-reverse;
+	           align-items: center;
+	       }
+	   }
+
+	   ul {
+	       list-style-type: none;
+	       padding: 0;
+	       margin: 0;
+	   }
+	   ul li {
+	       margin-bottom: 10px;
+	   }
+	   nav {
+	       padding: 10px;
+	   }
+	   nav a {
+	       display: block;
+	       padding: 10px;
+	       text-decoration: none;
+	       color: #c8102e;
+	       text-align: left;
+	   }
+
+
+		#filterContainer {
+		  display: flex;
+		  align-items: center;
+		}
+
+		#filterBox {
+		  padding: 10px;
+		  border: 2px solid #c8102e;
+		  border-radius: 5px;
+		  width: 300px;
+		  font-size: 16px;
+		}
+
+
+		#filterClear {
+		  cursor: pointer;
+		  margin-left: 10px;
+		}
+	</style>
+</head>
+<body>
+	<!-- Container div -->
+	<div id="container">
+		<header>
+			<h1>First Aid Guides</h1><img alt="Company Logo" id="logo" src="../First-Aid-Guides/company-logo-1.png">
+		</header><!-- Add the input box for filtering -->
+		<div id="filterContainer">
+		  <input type="text" id="filterBox" placeholder="Type to filter the documents">
+		  <span id="filterClear">&#10006;</span> <!-- "X" button to clear the filter -->
+		</div>
+		<nav>
+			<ul>
+				<li>
+					<a href="../First-Aid-Guides/Anaphylaxis.pdf.pdf">Anaphylaxis</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Asthma attack.pdf.pdf">Asthma attack</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Blue Ringed Octopus.pdf.pdf">Blue Ringed Octopus & Cone Shell Bites</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Broken Bones and Fractures.pdf.pdf">Broken Bones and Fractures</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Burns.pdf.pdf">Burns</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Choking - Adults and Children Over 1yr.pdf.pdf">Choking &ndash; Adults and Children Over 1yr</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Choking - Infant Under 1yr.pdf.pdf">Choking &ndash; Infant Under 1yr</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Cold-induced conditions.pdf.pdf">Cold-induced conditions</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Concussion Head Injury.pdf.pdf">Concussion and Head Injury</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Diabetes Induced Emergencies.pdf.pdf">Diabetes Induced Emergencies</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Dislocations.pdf.pdf">Dislocations</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/DRSABCD Action Plan Adult and Child.pdf.pdf">DRSABCD Action Plan &ndash; Adult and Child</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/DRSABCD Action Plan Infant under 1 year.pdf.pdf">DRSABCD Action Plan &ndash; Infants under 1 year</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Electric Shock or Electrocution.pdf.pdf">Electric Shock or Electrocution</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Eye Injuries.pdf.pdf">Eye Injuries and Penetrating Eye Injuries</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Febrile Convulsions.pdf.pdf">Febrile Convulsions</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Heart Attack.pdf.pdf">Heart Attack Signs, Symptoms and Management</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Heat Induced and Heat Stroke Treatment.pdf.pdf">Heat Induced Injury and Heat Stroke Treatment</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Insect-bites-and-stings.pdf.pdf">Insect Bites and Stings</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Jellyfish Stings.pdf.pdf">Jellyfish Stings</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Marine Stings.pdf.pdf">Marine Stings, Stonefish and Stingray Injuries</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Non-Tropical Jellyfish Stings.pdf.pdf">Non-Tropical Jellyfish Stings</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Poisoning.pdf.pdf">Poisoning &ndash; Absorbed, Inhaled & Injected Poisons</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Red Back Spider Bite.pdf.pdf">Red Back Spider Bite</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Seizures and Epilepsy.pdf.pdf">Seizures and Epilepsy</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Severe Bleeding.pdf.pdf">Severe Bleeding</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Shock.pdf.pdf">Shock</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Snake Bite.pdf.pdf">Snake Bite</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Spinal and Neck Injury.pdf.pdf">Spinal and Neck Injury</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Sprains and Strains.pdf.pdf">Sprains and Strains</a>
+				</li>
+				<li>
+					<a href="../First-Aid-Guides/Stroke.pdf.pdf">Stroke</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+    <script type="module">
+
+	//   import { Capacitor } from '@capacitor/core';
+
+      const filterBox = document.getElementById('filterBox');
+      const filterClear = document.getElementById('filterClear');
+      const navLinks = document.querySelectorAll('nav a');
+
+      filterBox.addEventListener('input', () => {
+        const filterValue = filterBox.value.toLowerCase();
+        navLinks.forEach(link => {
+          const linkText = link.textContent.toLowerCase();
+          if (linkText.includes(filterValue)) {
+            link.parentElement.style.display = 'block';
+          } else {
+            link.parentElement.style.display = 'none';
+          }
+        });
+      });
+
+
+      filterClear.addEventListener('click', () => {
+        filterBox.value = '';
+        navLinks.forEach(link => {
+          link.parentElement.style.display = 'block';
+        });
+      });
+    </script>
+</body>
+</html>

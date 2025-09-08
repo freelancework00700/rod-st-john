@@ -1,0 +1,88 @@
+// Function to parse CSV data
+function parseCSV(csv) {
+const lines = csv.split('\n');
+const headers = lines[0].split(',');
+
+return lines.slice(1).map(line => {
+  const values = line.split(',');
+  const entry = {};
+
+  headers.forEach((header, index) => {
+	entry[header.trim()] = values[index].trim();
+  });
+
+  return entry;
+});
+}
+
+// Function to get the current URL
+function getCurrentURL() {
+return window.location.href;
+}
+
+// Function to find data for the current URL from CSV
+function findDataForCurrentURL(data, currentURL) {
+  const matchingEntry = data.find(entry => entry.URL === currentURL);
+
+  if (matchingEntry) {
+    return matchingEntry;
+  } else {
+    // Handle the case when the URL is not found
+    console.warn('No matching entry found for the current URL in the CSV.');
+    return {};  
+  }
+}
+
+// Function to update input fields with data and apply styling
+function updateInputFields(data) {
+  const publishedDateInput = document.getElementById('PublishedDate');
+  const reviewDateInput = document.getElementById('ReviewDate');
+  const versionInput = document.getElementById('Version');
+
+  // Check if the required input fields exist on the page
+  if (!publishedDateInput || !reviewDateInput || !versionInput) {
+    console.warn('One or more required input fields not found on the page.');
+    return;
+  }
+
+  // Update input values
+  publishedDateInput.value = data['Published Date'] || '';
+  reviewDateInput.value = data['Review Date'] || '';
+  versionInput.value = data['Version'] || '';
+
+  // Check if the review date has passed
+  const currentDate = new Date();
+  const reviewDate = new Date(data['Review Date']);
+
+  if (reviewDate < currentDate) {
+    // Apply styling if review date has passed
+    reviewDateInput.style.backgroundColor = 'rgba(255, 0, 0, 0.5)';
+  }
+}
+
+// Function to load and process CSV data
+function loadAndProcessCSV() {
+  // URL of the CSV file with a cache-busting parameter
+  const csvFileURL = 'https://clinical.stjohnwa.com.au/docs/default-source/default-document-library/versioning.csv?sfvrsn=5f0219b2_8&t=' + Date.now();
+
+  // Fetch the CSV file
+  fetch(csvFileURL)
+    .then(response => response.text())
+    .then(csv => {
+      // Parse CSV data
+      const data = parseCSV(csv);
+
+      // Get the current URL
+      const currentURL = getCurrentURL();
+
+      // Find data for the current URL
+      const dataForCurrentURL = findDataForCurrentURL(data, currentURL);
+
+      // Update input fields with data
+      updateInputFields(dataForCurrentURL);
+    })
+    .catch(error => console.error('Error fetching CSV:', error));
+}
+
+// Load and process CSV data when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', loadAndProcessCSV);
