@@ -473,7 +473,7 @@ window.checkForUpdatesManually = async function() {
 // update version display in header
 function updateVersionDisplay(version = null) {
   const versionElement = document.querySelector('.app-version');
-  if (versionElement) {
+  if (versionElement && version != "builtin") {
     versionElement.textContent = version || CURRENT_VERSION;
   }
 }
@@ -481,7 +481,7 @@ function updateVersionDisplay(version = null) {
 // get current app version from capacitor updater
 async function getCurrentAppVersion() {
   try {
-    const bundle = await CapacitorUpdater.current();
+    const { bundle } = await CapacitorUpdater.current();
     console.log("bundle", bundle);
     
     if (bundle && bundle.version) {
