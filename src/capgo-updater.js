@@ -40,7 +40,7 @@ function createUpdatePopup(releaseInfo) {
       <div class="update-popup">
         <div class="update-header">
           <div class="update-title">
-            <img src="assets/icon/refresh.svg" alt="Update" class="update-icon" />
+            <img src="icons/refresh.svg" alt="Update" class="update-icon" />
             <h3>Update Available</h3>
           </div>
         </div>
@@ -363,7 +363,7 @@ function showNoUpdateMessage(message) {
       <div class="update-popup">
         <div class="update-header">
           <div class="update-title">
-            <img src="assets/icon/refresh.svg" alt="Check" class="update-icon" />
+            <img src="icons/refresh.svg" alt="Check" class="update-icon" />
             <h3>No Updates Available</h3>
           </div>
         </div>
@@ -449,7 +449,7 @@ window.checkForUpdatesManually = async function() {
   if (syncBtn) {
     syncBtn.disabled = true;
     syncBtn.innerHTML = `
-      <img src="assets/icon/loading.svg" alt="Loading" style="animation: spin 1s linear infinite;" />
+      <img src="icons/loading.svg" alt="Loading" style="animation: spin 1s linear infinite;" />
     `;
   }
   
@@ -461,7 +461,7 @@ window.checkForUpdatesManually = async function() {
       if (syncBtn) {
         syncBtn.disabled = false;
         syncBtn.innerHTML = `
-          <img src="assets/icon/refresh.svg" alt="Refresh" />
+          <img src="icons/refresh.svg" alt="Refresh" />
         `;
       }
     }, 2000);

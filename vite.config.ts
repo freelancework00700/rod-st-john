@@ -3,6 +3,7 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
   root: './src',
+  publicDir: '../public',
   build: {
     outDir: '../dist',
     minify: false,
@@ -17,10 +18,6 @@ export default defineConfig({
         },
         {
           src: 'First-Aid-Guides',
-          dest: '.'
-        },
-        {
-          src: 'assets',
           dest: '.'
         }
       ]
