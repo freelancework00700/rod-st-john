@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
@@ -10,15 +10,34 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <link rel="stylesheet" href="./style.css" />
-    <meta name="theme-color" content="#31d53d" />
+    <meta name="theme-color" content="#da1a33" />
   </head>
   <body>
-    
-    <!-- Header -->
+    <!-- header -->
     <header class="app-header">
       <div class="toolbar">
-        <div id="backBtn" class="back-btn" onclick="goBack()" style="display:none;">&lt;</div>
-        <h5 class="app-name"> ST JOHN RESOURCES </h5>
+        <div
+          id="backBtn"
+          class="back-btn"
+          onclick="goBack()"
+          style="display: none"
+        >
+          <img src="assets/icon/back.svg" alt="Back" />
+        </div>
+
+        <div class="app-title-section">
+          <h5 class="app-name">ST JOHN RESOURCES</h5>
+          <span class="app-version">v1.0.0</span>
+        </div>
+
+        <button
+          id="syncBtn"
+          class="sync-btn"
+          onclick="checkForUpdatesManually()"
+          title="Check for Updates"
+        >
+          <img src="assets/icon/refresh.svg" alt="Refresh" />
+        </button>
       </div>
     </header>
 
@@ -26,10 +45,12 @@
     <main id="content" class="app-content">
       <ul id="websiteList" class="website-list">
         <li onclick="loadPage('clinical-resources/index.html')">
-          <a>Clinical Resources</a> 
+          <a>Clinical Resources</a>
         </li>
+
         <li onclick="loadPage('First-Aid-Guides/FirstAid.html.html')">
-          <a>First Aid Guides</a></li>
+          <a>First Aid Guides</a>
+        </li>
       </ul>
     </main>
 

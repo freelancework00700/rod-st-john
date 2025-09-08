@@ -18,6 +18,10 @@ export default defineConfig({
         {
           src: 'First-Aid-Guides',
           dest: '.'
+        },
+        {
+          src: 'assets',
+          dest: '.'
         }
       ]
     })
