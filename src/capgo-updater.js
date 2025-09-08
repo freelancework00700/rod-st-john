@@ -340,6 +340,10 @@ async function checkForUpdates() {
     console.log(`Found release: ${release.tag_name}`);
     
     // show update popup to user if new update is available
+    console.log("=======> release.tag_name", release.tag_name);
+    console.log("=======> CURRENT_VERSION", CURRENT_VERSION);
+    console.log("=======> release.tag_name !== CURRENT_VERSION", release.tag_name !== CURRENT_VERSION);
+    
     if (release.tag_name !== CURRENT_VERSION) {
       createUpdatePopup(release);
     }
