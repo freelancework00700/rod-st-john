@@ -1,7 +1,7 @@
 import { CapacitorUpdater } from '@capgo/capacitor-updater'
 
 // configuration
-const CURRENT_VERSION = '1.0.0';
+const CURRENT_VERSION = 'v1.0.0';
 const GITHUB_REPO = 'rod-st-john';
 const GITHUB_OWNER = 'freelancework00700';
 
@@ -339,8 +339,10 @@ async function checkForUpdates() {
 
     console.log(`Found release: ${release.tag_name}`);
     
-    // show update popup to user
-    createUpdatePopup(release);
+    // show update popup to user if new update is available
+    if (release.tag_name !== CURRENT_VERSION) {
+      createUpdatePopup(release);
+    }
     
   } catch (error) {
     console.error('Update check failed:', error);
@@ -472,8 +474,7 @@ window.checkForUpdatesManually = async function() {
 function updateVersionDisplay(version = null) {
   const versionElement = document.querySelector('.app-version');
   if (versionElement) {
-    const displayVersion = version || CURRENT_VERSION;
-    versionElement.textContent = `v${displayVersion}`;
+    versionElement.textContent = version || CURRENT_VERSION;
   }
 }
 
