@@ -480,7 +480,7 @@ function updateVersionDisplay(version = null) {
 // get current app version from capacitor updater
 async function getCurrentAppVersion() {
   try {
-    const bundle = await CapacitorUpdater.getCurrentBundle();
+    const bundle = await CapacitorUpdater.current();
     console.log("bundle", bundle);
     
     if (bundle && bundle.version) {
