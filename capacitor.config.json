@@ -5,7 +5,13 @@
   "plugins": {
     "SplashScreen": {
       "launchAutoHide": true
-        }
+    },
+    "CapacitorUpdater": {
+      "timeout": 30000,
+      "autoUpdate": false,
+      "channel": "production",
+      "updateUrl": "https://github.com/freelancework00700/rod-st-john/releases/latest/download/build.zip"
+    }
   },
   "server": {
     "url": "http://127.0.0.1:18181",
