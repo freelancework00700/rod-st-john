@@ -1,7 +1,6 @@
 import { CapacitorUpdater } from '@capgo/capacitor-updater'
 
 // configuration
-const CURRENT_VERSION = '1.0.0';
 const GITHUB_REPO = 'rod-st-john';
 const GITHUB_OWNER = 'freelancework00700';
 
@@ -339,8 +338,11 @@ async function checkForUpdates() {
 
     console.log(`Found release: ${release.tag_name}`);
     
-    // show update popup to user
-    createUpdatePopup(release);
+    // show update popup to user if new update is available
+    const currentVersion = await getCurrentAppVersion();
+    if (release.tag_name !== currentVersion) {
+      createUpdatePopup(release);
+    }
     
   } catch (error) {
     console.error('Update check failed:', error);
@@ -424,11 +426,6 @@ CapacitorUpdater.addListener("updateFailed", (error) => {
   updateProgress(0, `Update failed: ${error.message || 'Unknown error'}`);
 });
 
-// get current version function
-window.getCurrentVersion = function() {
-  return CURRENT_VERSION;
-};
-
 // refresh version display function (can be called after app reload)
 window.refreshVersionDisplay = async function() {
   try {
@@ -471,16 +468,15 @@ window.checkForUpdatesManually = async function() {
 // update version display in header
 function updateVersionDisplay(version = null) {
   const versionElement = document.querySelector('.app-version');
-  if (versionElement) {
-    const displayVersion = version || CURRENT_VERSION;
-    versionElement.textContent = `v${displayVersion}`;
+  if (versionElement && version != "builtin") {
+    versionElement.textContent = version;
   }
 }
 
 // get current app version from capacitor updater
 async function getCurrentAppVersion() {
   try {
-    const bundle = await CapacitorUpdater.current();
+    const { bundle } = await CapacitorUpdater.current();
     console.log("bundle", bundle);
     
     if (bundle && bundle.version) {
@@ -489,7 +485,7 @@ async function getCurrentAppVersion() {
   } catch (error) {
     console.log('Could not get current bundle version:', error);
   }
-  return CURRENT_VERSION; // fallback to hardcoded version
+  return "v1.0.0"; // fallback to hardcoded version
 }
 
 // initialize the updater
