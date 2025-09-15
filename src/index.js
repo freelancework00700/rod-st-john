@@ -1,9 +1,11 @@
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
 import { Browser } from '@capacitor/browser';
+import { App } from '@capacitor/app';
 
 let iframeHistory = [];
 let currentIndex = -1;
+let currentUrl;
 const AZURE_LOGIN_URL = 'https://clinical.stjohnwa.com.au/medical-library/other/library/login-user-profile/LoginExternalProvider/Azure%20AD/';
 
 const siteListingHTML = document.getElementById('content').innerHTML;
@@ -81,12 +83,15 @@ function blobToBase64(blob) {
 }
 
 function loadPage(url) {
+    currentUrl = url;
     if (typeof url === 'string' && (url.toLowerCase().includes('other-departments/sitepages/login.html') || url.toLowerCase().includes('loginexternalprovider/azure%20ad'))) {
         openExternal(AZURE_LOGIN_URL);
         return;
     }
     const content = document.getElementById('content');
     document.getElementById('backBtn').style.display = "inline-block";
+
+    displayHeader();
 
     const iframe = document.createElement('iframe');
     iframe.src = url;
@@ -168,6 +173,17 @@ function loadPage(url) {
     };
 }
 
+function displayHeader() {
+    const appNameEl = document.querySelector(".app-name");
+    if (currentUrl && currentUrl.includes("clinical-resources")) {
+        appNameEl.textContent = "CLINICAL RESOURCES";
+    } else if (currentUrl && currentUrl.includes("First-Aid-Guides")) {
+        appNameEl.textContent = "FIRST AID GUIDES";
+    } else {
+        appNameEl.textContent = "ST JOHN RESOURCES";
+    }
+}
+
 function goBack() {
     if (currentIndex > 0) {
         currentIndex--;
@@ -181,6 +197,8 @@ function goBack() {
 
         iframeHistory = [];
         currentIndex = -1;
+        currentUrl = null;
+        displayHeader();
     }
 }
 
@@ -198,3 +216,12 @@ async function openExternal(url) {
         window.location.href = url;
     }
 }
+
+App.addListener('backButton', ({ canGoBack }) => {
+  const backBtn = document.getElementById('backBtn');
+  if (backBtn && backBtn.style.display !== 'none') {
+    goBack();
+  } else {
+    App.exitApp();
+  }
+});
