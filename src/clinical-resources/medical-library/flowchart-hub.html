@@ -2904,18 +2904,71 @@ The cookies used on this site are small and completely anonymous pieces of infor
 
 
  </div>  <script src="../Frontend-Assembly/Telerik.Sitefinity.Frontend.Search/Mvc/Scripts/SearchBox/Search-box.min.jspackage=Bootstrap&v=MTIuMi43MjAwLjA=" type="text/javascript"></script><script type="text/javascript" src="../ResourcePackages/Bootstrap/assets/dist/Terms Conditions/TermsReferences.js"></script> <script type="text/javascript" src="../ResourcePackages/Bootstrap/assets/dist/js/accordion.jsv=4"></script> <script type="text/javascript" src="../ResourcePackages/Bootstrap/assets/dist/js/colourassist.jsv=4"></script> <script type="text/javascript" src="../ResourcePackages/Bootstrap/assets/dist/js/anchorlight.js"></script> <script type="text/javascript" src="../ResourcePackages/StJohnClinical/src/assets/js/VersionControl.jsv=2"></script> <script type="text/javascript">
-        var skcook = getCookie('skillmode');
-        if (skcook === '0') {
-            var pracscope = 'vol';
+     
+     var skcook = getCookie('skillmode');
+     if (skcook === '0') {
+         var pracscope = 'vol';
         } else {
             var pracscope = 'career';
         }
         gtag('event', 'scope_dimension', {'scope': pracscope});
       
-      window.addEventListener('load', (event) => {
-        document.getElementById('weightsubmit').addEventListener('click', () => {
-          fathom.trackEvent('med calculator',
+        window.addEventListener('load', (event) => {
+            document.getElementById('weightsubmit').addEventListener('click', () => {
+                fathom.trackEvent('med calculator',
                             {_value: document.title});
+                        });
+                    });
+
+    </script> <!-- Built for Clinical Services - St John WA, by Deane Coxall --> 
+
+    <!-- <script type="module" src="../../main.js"></script> -->
+
+    <!-- <script>
+        document.addEventListener("click", async (e) => {
+        const target = e.target.closest("a");
+        if (!target) return;
+
+        const href = target.getAttribute("href") || "";
+        if (!href.toLowerCase().endsWith(".pdf")) return;
+
+        e.preventDefault();
+
+        // Use absolute path from assets
+        const absolutePath = href.startsWith("/") ? href : "/" + href;
+        if (window.Browser) {
+            await window.Browser.open({ url: absolutePath });
+        } else {
+            alert("Cannot open PDF: Capacitor Browser not available");
+        }
         });
-      });
-    </script> <!-- Built for Clinical Services - St John WA, by Deane Coxall --> </body> </html>
+    </script> -->
+
+    <!-- <script>
+        document.querySelectorAll('a').forEach(a => {
+        if(a.href.endsWith('.pdf')) {
+            const relativePath = a.getAttribute('href').replace(/^(\.\.\/)*/, '');
+            console.log('relativePath:', relativePath);
+
+            const androidPath = 'file:///android_asset/public/clinical-resources/' + relativePath.replace(/^DOCS\//, 'DOCS/');
+
+            a.href = androidPath;
+            console.log('a.href:', a.href);
+            a.setAttribute('onclick', 'window.open(this.href,"_system"); return false;')
+        }
+        });
+    </script> -->
+
+    <!-- <script type="module" src="../../main.js"></script>
+    <script>
+        // Listen for all clicks and delegate PDF handling
+        document.addEventListener('click', (e) => {
+            // If the module-based handler exists, call it
+            if (window.handlePDFClick) {
+            const handled = window.handlePDFClick(e);
+            if (handled) return; // Prevent other handlers if handled
+            }
+        });
+    </script> -->
+
+    </body> </html>
