@@ -10,6 +10,66 @@ const AZURE_LOGIN_URL = 'https://clinical.stjohnwa.com.au/medical-library/other/
 
 const siteListingHTML = document.getElementById('content').innerHTML;
 
+// intercept external links (http/https) and notify via a custom event
+function interceptExternalLinks(rootDocument) {
+    if (!rootDocument || rootDocument.__externalInterceptorBound) {
+        return;
+    }
+    rootDocument.__externalInterceptorBound = true;
+
+    const bindOnAnchors = (doc) => {
+        const anchors = doc.querySelectorAll('a[href^="http:"], a[href^="https:"]');
+        
+        anchors.forEach(anchor => {
+            if (anchor.__externalBound) return;
+            anchor.__externalBound = true;
+            anchor.addEventListener('click', (e) => {
+                const href = anchor.getAttribute('href') || '';
+                if (/^https?:\/\//i.test(href)) {
+                    e.preventDefault();
+                    try {
+                        window.dispatchEvent(new CustomEvent('externalLinkOpen', { detail: { url: href } }));
+                    } catch (_) { /* no-op */ }
+                    openExternal(href);
+                }
+            });
+        });
+    };
+
+    // initial bind
+    try { bindOnAnchors(rootDocument); } catch (_) {}
+
+    // capture inline onclick handlers that redirect using window.location to http/https
+    try {
+        rootDocument.addEventListener('click', (e) => {
+            let node = e.target;
+            while (node && node !== rootDocument) {
+                if (node.hasAttribute && node.hasAttribute('onclick')) {
+                    const handler = node.getAttribute('onclick') || '';
+                    // detect explicit http/https URLs inside the inline handler
+                    const urlMatch = handler.match(/['\"](https?:\/\/[^'\"\)\s]+)['\"]/i);
+                    if (urlMatch && urlMatch[1]) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        try {
+                            window.dispatchEvent(new CustomEvent('externalLinkOpen', { detail: { url: urlMatch[1] } }));
+                        } catch (_) { /* no-op */ }
+                        openExternal(urlMatch[1]);
+                        return;
+                    }
+                }
+                node = node.parentElement;
+            }
+        }, true);
+    } catch (_) { /* ignore */ }
+
+    // observe future changes
+    try {
+        const mo = new MutationObserver(() => bindOnAnchors(rootDocument));
+        mo.observe(rootDocument.documentElement || rootDocument.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['href'] });
+    } catch (_) { /* ignore if not permitted */ }
+}
+
 function handlePdfClick(url) {
     const normalized = normalizePath(url);
     openPdfAndroid(normalized);
@@ -84,7 +144,6 @@ function blobToBase64(blob) {
 
 function loadPage(url) {
     currentUrl = url;
-    console.log('currentUrl:', currentUrl);
     if (typeof url === 'string' && (url.toLowerCase().includes('other-departments/sitepages/login.html') || url.toLowerCase().includes('loginexternalprovider/azure%20ad'))) {
         openExternal(AZURE_LOGIN_URL);
         return;
@@ -126,6 +185,9 @@ function loadPage(url) {
                 });
             });
 
+            // intercept generic external http/https links
+            interceptExternalLinks(iframeDoc);
+
             // Intercept login link clicks inside iframe and open externally
             const loginLinks = iframeDoc.querySelectorAll('a[href*="other-departments/sitepages/login"]');
             loginLinks.forEach(link => {
@@ -166,6 +228,8 @@ function loadPage(url) {
                         openExternal(m[1]);
                     }
                 }
+                // re-bind external links that may have been added dynamically
+                interceptExternalLinks(iframeDoc);
             });
             observer.observe(iframeDoc.documentElement || iframeDoc.body, { childList: true, subtree: true });
         } catch (err) {
@@ -205,6 +269,9 @@ function goBack() {
 
 window.loadPage = loadPage;
 window.goBack = goBack;
+
+// also intercept external links in the host document (if any)
+try { interceptExternalLinks(document); } catch (_) {}
 
 async function openExternal(url) {
     try {

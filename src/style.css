@@ -19,7 +19,6 @@ body {
 .app-header {
   background: #f8f8f8;
   border-bottom: 1px solid #ddd;
-  padding-top: calc(env(safe-area-inset-top) + 20px);
   top: 0;
   position: sticky;
   min-height: 80px;
@@ -35,7 +34,6 @@ body {
   justify-content: center;
   padding: 8px 12px;
   min-height: 44px;
-  margin-top: 10px;
   position: relative;
 }
 
@@ -160,19 +158,5 @@ body {
   }
   to {
     transform: rotate(360deg);
-  }
-}
-
-/* Additional padding for devices with notches/camera cutouts */
-@supports (padding: max(0px)) {
-  .app-header {
-    padding-top: max(env(safe-area-inset-top), 20px);
-  }
-}
-
-/* Fallback for older devices */
-@media screen and (max-width: 768px) {
-  .app-header {
-    padding-top: 30px;
   }
 }
