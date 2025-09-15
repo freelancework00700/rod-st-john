@@ -1,0 +1,120 @@
+﻿.refaccord {
+    cursor: pointer;
+    font-size: 24px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    width: 100%;
+    text-align: left;
+    border: 1px solid #333f48;
+	border-bottom:none;
+    padding: 5px;
+    -webkit-print-color-adjust: exact;
+    transition: 0.4s;
+
+}
+.refaccord:after {
+    font-style: italic;
+    font-size:small;
+    content: '[Open]';
+    margin-left: 5px;
+}
+.refaccordopen:after {
+    content: "[Close]";
+}
+.refpanel {
+    overflow: hidden;
+    margin: 0px;
+    max-height: 0;
+    border: 1px solid #333f48;
+	border-top:none;
+    transition: max-height 0.3s ease-out;
+}
+
+.calcaccord {
+    cursor: pointer;
+    font-size: 18px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    width: 100%;
+    text-align: left;
+    border: 1px solid #333f48;
+	border-bottom:none;
+    padding: 5px;
+    -webkit-print-color-adjust: exact;
+    transition: 0.4s;
+
+}
+.calcaccord:after {
+    font-style: italic;
+    font-size:small;
+    content: '[Open]';
+    margin-left: 5px;
+}
+.calcaccordopen:after {
+    content: "[Close]";
+}
+.calcpanel {
+    overflow: hidden;
+    padding: 5px;
+    margin: 0px;
+    max-height: 0;
+    border: 1px solid #333f48;
+	border-top:none;
+    transition: max-height 0.3s ease-out;
+}
+
+.accordion {
+	background-color: #f5f5f5;
+	cursor: pointer;
+	padding: 10px;
+	width: 100%;
+	border: none;
+	text-align: left;
+	outline: none;
+	box-shadow: 1px 1px grey;
+    transition: 0.4s;
+}
+.accordexpanded, .accordion:hover {
+	background-color: #C0C0C0;
+}
+.accordion:after {
+	content: '\23EC';
+	color: #333f48;
+	font-weight: bold;
+	float: right;
+	margin-left: 5px;
+	font-size: larger;
+}
+.accordexpanded:after {
+	content: "\23EB";
+}
+.panel {
+	padding: 0 15px;
+	overflow: hidden;
+	background-color:transparent;
+	margin: 0px;
+        max-height: 0;
+        transition: max-height 0.3s ease-out;
+}
+
+@media print {
+	.panel, .refpanel, .calcpanel {
+		max-height:100%!important;
+		border:none;
+	}
+	.accordion:after, .refaccord:after, .calcaccord:after {
+	content: '';
+	}
+	.refaccord, .refpanel, .calcpanel {
+	border:none;
+	}	
+}
+
+@media (prefers-color-scheme: dark) {
+	.accordion, .refaccordion, .calcaccordion {
+		color: #333;
+	}
+	.panel, .refpanel, .calcpanel {
+		background-color: #333;
+	}
+}

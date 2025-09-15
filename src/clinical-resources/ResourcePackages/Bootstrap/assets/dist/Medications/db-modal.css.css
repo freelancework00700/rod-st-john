@@ -1,0 +1,51 @@
+﻿.dboxModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  max-width: 90%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0,0,0,.2);
+  padding: 20px;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.dboxModal h2 {
+  font-size: 1.5rem;
+  margin-top: 0;
+}
+
+.dboxModal p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.dboxModal button {
+  background-color: #0078d7;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.dboxModal button:hover {
+  background-color: #005fa3;
+}
+
+@media screen and (max-width: 992px) {
+  .dboxModal {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+.dboxModal {
+color: #333;
+}
+}

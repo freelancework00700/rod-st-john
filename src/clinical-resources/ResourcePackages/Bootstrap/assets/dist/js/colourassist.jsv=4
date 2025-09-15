@@ -1,0 +1,135 @@
+var c1name = "colassist";
+var c2name = "skillmode";
+var c3name = "fontsize";
+var c4name = "critcare";
+var exdays = 30;
+onloadcookie();
+
+function onloadcookie() {
+	var fontsizeonload = getCookie(c3name);
+	if (fontsizeonload == "") {
+		setCookie(c3name, '14', exdays)
+	} else {
+	var el = document.getElementsByTagName('body')[0]; 
+	el.style.fontSize = (fontsizeonload) + 'px';
+	}
+	var colmode = getCookie(c1name);
+	if (colmode == "" || colmode == "1") {
+		const classesObject = {
+			'blockdkgrey': 'rgba(117, 120, 123, 0.3)',
+			'mp-preparation-content': 'rgba(93, 138, 192, 0.3)',
+			'blockblue':  'rgba(93, 138, 192, 0.3)',
+			'blockltgrey': 'rgba(199, 176, 138, 0.3)',
+			'blockyellow': 'rgba(255, 192, 128, 0.3)',
+			'blockgreen': 'rgba(207, 248, 174, 0.3)',
+			'blockred': 'rgba(255, 136, 136, 0.3)',
+			'blockcovid': 'rgba(243, 203, 43, 0.3)',
+			'blockltpurple': 'rgba(128, 0, 64, 0.3)',
+			'minblockyellow': 'rgba(255, 192, 0, 0.3)',
+			'minblockblue': 'rgba(55, 184, 198, 0.3)',
+			'minblockgreen': 'rgba(18, 128, 64, 0.3)',
+			'minblockpurple': 'rgba(128, 0, 64, 0.3)'
+		}
+		for (let c of Object.keys(classesObject)) {
+			jQuery(`.${c}`).attr("style", `background-color:${classesObject[c]}`);
+		}
+		setCookie(c1name, '1', exdays)
+	} else if (colmode == "0") {
+		jQuery('#colassist').prop('checked', true);
+		const classes = ['blockdkgrey', 'mp-preparation-content', 'blockltgrey', 'blockyellow', 'blockgreen', 'blockred', 'blockcovid', 'blockltpurple', 'minblockyellow', 'minblockblue', 'minblockgreen', 'minblockpurple'];
+		for (let i = 0; i < classes.length; i++) {
+			jQuery(`.${classes[i]}`).attr("style", "background-color:inherit; color:inherit");
+		}
+	}
+	
+	var skillmode = getCookie(c2name);
+	if (skillmode == "" || skillmode == "1") {
+		jQuery('.volunteer').hide();
+		setCookie(c2name, '1', exdays)
+	} else if (skillmode == "0") {
+		jQuery('#skillset').prop('checked', true);
+		jQuery('.paramedic').hide();
+		jQuery('.volunteer').show();
+	}
+	
+	var critcare = getCookie(c4name);
+	if (critcare == "" || critcare == "0") {
+		jQuery('.criticalcare').hide();
+		jQuery('#critcaremode').prop('checked', true);
+		setCookie(c4name, '0', exdays)
+	} else if (critcare == "1") {
+		jQuery('.criticalcare').show();
+	}
+}
+
+$(document).on('click', '#colassist', function(event) {
+  colcookie();
+});
+
+function colcookie() {
+	var colmode = getCookie(c1name);
+	if (colmode == "1") {
+		const classes = ['blockdkgrey', 'mp-preparation-content', 'blockltgrey', 'blockyellow', 'blockgreen', 'blockred', 'blockcovid', 'blockltpurple', 'minblockyellow', 'minblockblue', 'minblockgreen', 'minblockpurple'];
+		for (let i = 0; i < classes.length; i++) {
+			jQuery(`.${classes[i]}`).attr("style", "background-color:inherit; color:inherit");
+		}
+		setCookie(c1name, '0', exdays);
+	} else if (colmode == "0") {
+		const classesObject = {
+			'blockdkgrey': 'rgba(117, 120, 123, 0.3)',
+			'mp-preparation-content': 'rgba(93, 138, 192, 0.3)',
+			'blockblue':  'rgba(93, 138, 192, 0.3)',
+			'blockltgrey': 'rgba(199, 176, 138, 0.3)',
+			'blockyellow': 'rgba(255, 192, 128, 0.3)',
+			'blockgreen': 'rgba(207, 248, 174, 0.3)',
+			'blockred': 'rgba(255, 136, 136, 0.3)',
+			'blockcovid': 'rgba(243, 203, 43, 0.3)',
+			'blockltpurple': 'rgba(128, 0, 64, 0.3)',
+			'minblockyellow': 'rgba(255, 192, 0, 0.3)',
+			'minblockblue': 'rgba(55, 184, 198, 0.3)',
+			'minblockgreen': 'rgba(18, 128, 64, 0.3)',
+			'minblockpurple': 'rgba(128, 0, 64, 0.3)'
+		};
+		for (let c of Object.keys(classesObject)) {
+			jQuery(`.${c}`).attr("style", `background-color:${classesObject[c]}`);
+		}
+		setCookie(c1name, '1', exdays);
+	}
+}
+
+$(document).on('click', '#skillset', function(event) {
+  $('table:first').find('tbody tr').show();
+  skillcookie();
+});
+
+function skillcookie() {
+	var skillmode = getCookie(c2name);
+	if (skillmode == "1") {
+		jQuery('.volunteer').show();
+		jQuery('.paramedic').hide();
+		setCookie(c2name, '0', exdays);
+	} else if (skillmode == "0") {
+		jQuery('.paramedic').show();
+		jQuery('.volunteer').hide();
+		setCookie(c2name, '1', exdays);
+	}
+}
+
+jQuery(document).on('click', '#critcaremode', function(event) {
+    $('table:first').find('tbody tr').show();
+    critcarecookie();
+});
+
+function critcarecookie() {
+    var critcaremode = getCookie(c4name);
+    if (critcaremode == "1") {
+        jQuery('.criticalcare').hide();
+        jQuery('[data-placeholder-label="Management - Critical Care Only"]').hide();
+        setCookie(c4name, '0', exdays);
+    } else if (critcaremode == "0") {
+        jQuery('.criticalcare').show();
+        jQuery('[data-placeholder-label="Management - Critical Care Only"]').show();
+        setCookie(c4name, '1', exdays);
+    }
+}
+

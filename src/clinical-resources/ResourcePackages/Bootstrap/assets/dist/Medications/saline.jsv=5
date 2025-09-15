@@ -1,0 +1,148 @@
+function calcSaline() {
+	var mode = sessionStorage.getItem("patientmode");
+	var weight = sessionStorage.getItem("patientweight");
+	// Parkland
+	var tbsafluid, firsthalf, secondhalf, mlsmin, drops, mlshour;
+	var tbsa = document.getElementById('tbsa').value;
+	if (weight !="" && tbsa != "") {
+		var tbsafluid = (2 * tbsa * weight);
+		var firsthalf = (tbsafluid / 2);
+		var secondhalf = (tbsafluid / 2);
+		var mlshour = (firsthalf / 8);
+		var mlsmin = (mlshour / 60);
+		var drops = (mlsmin * 20);
+		  if (weight >= 39 && tbsa < 15) {
+		  var tbsafluid = "Not indicated";
+		  var firsthalf = secondhalf = mlshour = mlsmin = drops = 0;
+		  };
+		  if (weight >= 11 && tbsa < 10) {
+		  var tbsafluid = "Not indicated";
+		  var firsthalf = secondhalf = mlshour = mlsmin = drops = 0;
+		  };
+		  if (weight <= 10 && tbsa < 8) {
+		  var tbsafluid = "Not indicated";
+		  var firsthalf = secondhalf = mlshour = mlsmin = drops = 0;
+		  };
+		mlshour = mlshour.toFixed(2);
+		mlsmin = mlsmin.toFixed(2);
+		drops = drops.toFixed(0);
+		document.getElementById("tbsafluid").innerHTML = tbsafluid;
+		document.getElementById("firsthalf").innerHTML = firsthalf;
+		document.getElementById("secondhalf").innerHTML = secondhalf;
+		document.getElementById("mlsmin").innerHTML = mlsmin;
+		document.getElementById("drops").innerHTML = drops;
+		document.getElementById("mlshour").innerHTML = mlshour;
+	}
+	document.getElementById("tbsa").addEventListener("change", calcSaline);
+
+	// CPG administration per kilogram of drug
+	var ConcNSBurns = 10;
+	var ConcNSHaem = 10;
+	var ConcNSOHCA = 20;
+	if (weight <= 4) {
+		var ConcNSOHCA = 10
+	};
+	var ConcNSROSC = 10;
+	var ConcNSShock = 10;
+	// Concentration (mcg/mg) per millilitre of drug
+	var PresNSBurns = 0;
+	var PresNSHaem = 0;
+	var PresNSOHCA = 0;
+	var PresNSShock = 0;
+	//Unit of Measure per medication
+	var UoMNSBurns = "mL";
+	var UoMNSHaem = "mL";
+	var UoMNSOHCA = "mL";
+	var UoMNSROSC = "mL";
+	var UoMNSShock = "mL";
+	// Calculations of drug dosages
+	var DoseNSBurns = (weight * ConcNSBurns);
+	var DoseNSHaem = (weight * ConcNSHaem);
+	var DoseNSOHCA = (weight * ConcNSOHCA);
+	var DoseNSROSC = (weight * ConcNSROSC);
+	var DoseNSShock = (weight * ConcNSShock);
+	//IV Saline for Burns
+	if (mode == "Adult") {
+		document.getElementById("AdultBurns").style.display = "inherit";
+		document.getElementById("PaedBurns").style.display = "none";
+	} else {
+		document.getElementById("AdultBurns").style.display = "none";
+		document.getElementById("PaedBurns").style.display = "inherit";
+	}
+	//Dosages
+	if (mode == "Adult") {
+		var DoseNSBurns = 1000,
+			DoseNSHaem = 250,
+			DoseNSOHCA = (weight * ConcNSOHCA),
+			DoseNSROSC = 250,
+			DoseNSShock = 250;
+	}
+	//NormalSalinePostROSC
+	if (mode == "Paediatric" && DoseNSROSC >= 250) {
+		var DoseNSROSC = 250;
+		document.getElementById("DoseNSROSC").style.color = "red";
+		document.getElementById("VolNSROSC").style.color = "red"
+	} else {
+		document.getElementById("DoseNSROSC").style.color = "inherit";
+		document.getElementById("DoseNSROSC").style.color = "inherit"
+	}
+	//NormalSalineHaemorrhage
+	if (mode == "Paediatric" && DoseNSHaem >= 250) {
+		var DoseNSHaem = 250;
+		document.getElementById("DoseNSHaem").style.color = "red";
+		document.getElementById("VolNSHaem").style.color = "red"
+	} else {
+		document.getElementById("DoseNSHaem").style.color = "inherit";
+		document.getElementById("VolNSHaem").style.color = "inherit";
+	};
+	if (weight >= 41) {
+		document.getElementById("VolNSHaem").style.color = "red"
+	}
+	if (weight >= 41) {
+		document.getElementById("VolNSBurns").style.color = "red"
+	}
+	if (weight >= 41) {
+		document.getElementById("VolNSShock").style.color = "red"
+	}
+	if (mode == "Paediatric") {
+		document.getElementById("CapNSPead").style.display = "inline"
+	} else {
+		document.getElementById("CapNSPead").style.display = "none"
+	}
+	//Correct rounding issues
+	if (DoseNSBurns != parseInt(DoseNSBurns)) DoseNSBurns = DoseNSBurns.toFixed(2);
+	if (DoseNSHaem != parseInt(DoseNSHaem)) DoseNSHaem = DoseNSHaem.toFixed(2);
+	if (DoseNSOHCA != parseInt(DoseNSOHCA)) DoseNSOHCA = DoseNSOHCA.toFixed(2);
+	if (DoseNSROSC != parseInt(DoseNSROSC)) DoseNSROSC = DoseNSROSC.toFixed(2);
+	if (DoseNSShock != parseInt(DoseNSShock)) DoseNSShock = DoseNSShock.toFixed(2);
+	// Place drug dosages into table
+	document.getElementById("DoseNSBurns").innerHTML = DoseNSBurns + UoMNSBurns;
+	document.getElementById("DoseNSHaem").innerHTML = DoseNSHaem + UoMNSHaem;
+	document.getElementById("DoseNSOHCA").innerHTML = DoseNSOHCA + UoMNSOHCA;
+	document.getElementById("DoseNSROSC").innerHTML = DoseNSROSC + UoMNSROSC;
+	document.getElementById("DoseNSROSCRepeat").innerHTML = DoseNSROSC + UoMNSROSC;
+	document.getElementById("DoseNSShock").innerHTML = DoseNSShock + UoMNSShock;
+	//Setting contraindication class to all calculations where the dosage is set at zero.
+	if (DoseNSBurns == 0) {
+		document.getElementById("DoseNSBurns").parentElement.classList.add('medcontraid')
+	};
+	if (DoseNSHaem == 0) {
+		document.getElementById("DoseNSHaem").parentElement.classList.add('medcontraid')
+	};
+	if (DoseNSOHCA == 0) {
+		document.getElementById("DoseNSOHCA").parentElement.classList.add('medcontraid')
+	};
+	if (DoseNSROSC == 0) {
+		document.getElementById("DoseNSROSC").parentElement.classList.add('medcontraid');
+	};
+	if (DoseNSShock == 0) {
+		document.getElementById("DoseNSShock").parentElement.classList.add('medcontraid')
+	};
+}
+
+function clearSaline() {
+	var elementIds = ["tbsafluid", "firsthalf", "secondhalf", "mlsmin", "drops", "mlshour", "DoseNSBurns", "DoseNSHaem", "DoseNSOHCA", "DoseNSROSC", "DoseNSROSCRepeat", "DoseNSShock"];
+	for (var i = 0; i < elementIds.length; i++) {
+	  document.getElementById(elementIds[i]).innerHTML = '';
+	}
+};

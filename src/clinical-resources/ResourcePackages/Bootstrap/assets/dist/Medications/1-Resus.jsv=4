@@ -1,0 +1,187 @@
+function calcResus() {
+	let mode = sessionStorage.getItem("patientmode");
+	let weight = sessionStorage.getItem("patientweight");
+	let geriatric = sessionStorage.getItem("patientgeriatric");
+
+	// CPG administration per kilogram of drug
+	var ConcAmi = 1; /*Amiodarone (not a weight-based administration)*/
+	var ConcLig = 1;
+	var ConcAmiOHCA = 5;
+	var ConcEpiAnaphyl = 10;
+	var ConcEpiOHCA = 10;
+	if (mode == "Adult") {
+		var epiconc = "1,000"
+	} else if (mode == "Paediatric") {
+		var epiconc = "10,000"
+	};
+	var ConcEpiROSC = 1;
+	var ConcGluOHCA = 0.2;
+	var ConcNSOHCA = 20;
+	if (weight <= 4) {
+	var ConcNSOHCA = 10};
+	var ConcNSROSC = 10;
+	// Concentration (mcg/mg) per millilitre of drug
+	var PresAmi = 50;
+	var PresAmiOHCA = 50;
+	var PresLig = 10;
+	var PresLigOHCA = 10;
+	var PresEpiOHCA = 100;
+	var PresEpiROSC = 100;
+	var PresGluOHCA = 0.1;
+	var PresNSOHCA = 0;
+	//Unit of Measure per medication
+	var UoMAmiOHCA = "mg";
+	var UoMEpiOHCA = "mcg";
+	var UoMLigOHCA = "mg";
+	var UoMEpiROSC = "mcg";
+	var UoMGluOHCA = "g";
+	var UoMNSOHCA = "mL";
+	var UoMNSROSC = "mL";
+	var UoMAmi = "mg";
+	//Presentation changes based on paed/adult
+	if (mode == "Adult") {
+		var PresEpiOHCA = 1000
+	};
+	// Calculations of drug dosages
+	var DoseAmi = 300;
+	var DoseAmiOHCA = (weight * ConcAmiOHCA);
+	var DoseAmiSub = (weight * ConcAmiOHCA);
+	var DoseEpiOHCA = (weight * ConcEpiOHCA);
+	var DoseEpiROSC = (weight * ConcEpiROSC);
+	var DoseGluOHCA = (weight * ConcGluOHCA);
+	var DoseNSOHCA = (weight * ConcNSOHCA);
+	var DoseNSROSC = (weight * ConcNSROSC);
+	var DoseLigOHCA = (weight * ConcLig);
+	var DoseLig = (weight * ConcLig);
+	var DoseLigSub = (weight * ConcLig);
+
+// Subsequent rules applied to drug dosages
+	// Post-ROSC Ventilation
+	if (weight >= 0 && weight <= 5) {
+		var DoseVent = "40-60"
+	} else if (weight > 5 && weight <= 9) {
+		var DoseVent = "30-40"
+	} else if (weight > 9 && weight <= 11) {
+		var DoseVent = "25-35"
+	} else if (weight > 11 && weight <= 18) {
+		var DoseVent = "25-30"
+	} else if (weight > 18 && weight <= 36) {
+		var DoseVent = "20-25"
+	} else if (weight > 36 && weight <= 39) {
+		var DoseVent = "15-20"
+	} else if (weight >= 40) {
+		var DoseVent = "10-12"
+	};
+	if (mode == "Paediatric" || mode == "Newborn") {
+		var DoseGluOHCARpt = DoseGluOHCA;
+	}
+	//Adult Settings
+	//UoM
+	if (mode == "Adult") {
+		var UoMEpiOHCA = "mg";
+	}
+	//Presentation
+	if (mode == "Adult") {
+		var PresEpiOHCA = 1
+	}
+	//Dosages
+	if (mode == "Adult") {
+		var DoseAmiOHCA = 300,
+			DoseAmiSub = 150,
+			DoseLigOHCA = (weight * 1),
+			DoseLigSub = (weight * 1),
+			DoseEpiOHCA = 1,
+			DoseEpiROSC = 50,
+			DoseGluOHCA = 15,
+			DoseGluOHCARpt = 10,
+			DoseNSOHCA = (weight * ConcNSOHCA),
+			DoseNSROSC = 250
+	}
+	//NormalSalinePostROSC
+	if (mode == "Paediatric" && DoseNSROSC >= 250) {
+		var DoseNSROSC = 250;
+		document.getElementById("resusDoseNSROSC").style.color = "red";
+		document.getElementById("resusVolNSROSC").style.color = "red"
+	} else {
+		document.getElementById("resusDoseNSROSC").style.color = "inherit";
+		document.getElementById("resusDoseNSROSC").style.color = "inherit"
+	}
+	//Amiodarone Subsequent Dosage
+		if (mode == "Paediatric" && DoseAmiSub >= 150) {
+		var DoseAmiSub = 150;
+		document.getElementById("resusDoseAmiSub").style.color = "red";
+		document.getElementById("resusVolAmiSub").style.color = "red"
+	} else {
+		document.getElementById("resusDoseAmiSub").style.color = "inherit";
+		document.getElementById("resusVolAmiSub").style.color = "inherit"
+	}
+	// Calculations of drug volumes
+	var VolAmi = (DoseAmi / PresAmi);
+	var VolAmiOHCA = (DoseAmiOHCA / PresAmiOHCA);
+	var VolAmiSub = (DoseAmiSub / PresAmiOHCA);
+	var VolLig = (DoseLig / PresLig);
+	var VolLigOHCA = (DoseLigOHCA / PresLigOHCA);
+	var VolLigSub = (DoseLigSub / PresLigOHCA);
+	var VolEpiOHCA = (DoseEpiOHCA / PresEpiOHCA);
+	var VolEpiROSC = (DoseEpiROSC / PresEpiROSC);
+	var VolGluOHCA = (DoseGluOHCA / PresGluOHCA);
+	var VolGluOHCARpt = (DoseGluOHCARpt / PresGluOHCA);
+	
+	//Correct rounding issues
+if (DoseAmi != parseInt(DoseAmi)) DoseAmi = DoseAmi.toFixed(2);
+if (DoseAmiSub != parseInt(DoseAmiSub)) DoseAmiSub = DoseAmiSub.toFixed(2);
+if (DoseLig != parseInt(DoseLig)) DoseLig = DoseLig.toFixed(2);
+if (DoseLigSub != parseInt(DoseLigSub)) DoseLigSub = DoseLigSub.toFixed(2);
+if (DoseAmiOHCA != parseInt(DoseAmiOHCA)) DoseAmiOHCA = DoseAmiOHCA.toFixed(2);
+if (DoseEpiOHCA != parseInt(DoseEpiOHCA)) DoseEpiOHCA = DoseEpiOHCA.toFixed(2);
+if (DoseEpiROSC != parseInt(DoseEpiROSC)) DoseEpiROSC = DoseEpiROSC.toFixed(2);
+if (DoseGluOHCA != parseInt(DoseGluOHCA)) DoseGluOHCA = DoseGluOHCA.toFixed(2);
+if (DoseGluOHCARpt != parseInt(DoseGluOHCARpt)) DoseGluOHCARpt = DoseGluOHCARpt.toFixed(2);
+if (DoseNSOHCA != parseInt(DoseNSOHCA)) DoseNSOHCA = DoseNSOHCA.toFixed(2);
+if (DoseNSROSC != parseInt(DoseNSROSC)) DoseNSROSC = DoseNSROSC.toFixed(2);
+if (VolAmi != parseInt(VolAmi)) VolAmi = VolAmi.toFixed(2);
+if (VolAmiSub != parseInt(VolAmiSub)) VolAmiSub = VolAmiSub.toFixed(2);
+if (VolLig != parseInt(VolLig)) VolLig = VolLig.toFixed(2);
+if (VolLigSub != parseInt(VolLigSub)) VolLigSub = VolLigSub.toFixed(2);
+if (VolAmiOHCA != parseInt(VolAmiOHCA)) VolAmiOHCA = VolAmiOHCA.toFixed(2);
+if (VolLigOHCA != parseInt(VolLigOHCA)) VolLigOHCA = VolLigOHCA.toFixed(2);
+if (VolEpiOHCA != parseInt(VolEpiOHCA)) VolEpiOHCA = VolEpiOHCA.toFixed(2);
+if (VolEpiROSC != parseInt(VolEpiROSC)) VolEpiROSC = VolEpiROSC.toFixed(2);
+if (VolGluOHCA != parseInt(VolGluOHCA)) VolGluOHCA = VolGluOHCA.toFixed(2);
+if (VolGluOHCARpt != parseInt(VolGluOHCARpt)) VolGluOHCARpt = VolGluOHCARpt.toFixed(2);
+
+	// Place drug dosages into table
+	document.getElementById("resusDoseAmiOHCA").innerHTML = DoseAmiOHCA + UoMAmiOHCA;
+	document.getElementById("resusDoseAmiSub").innerHTML = DoseAmiSub + UoMAmiOHCA;	
+	document.getElementById("resusDoseLigOHCA").innerHTML = DoseLigOHCA + UoMLigOHCA;
+	document.getElementById("resusDoseLigSub").innerHTML = DoseLigSub + UoMLigOHCA;	
+	document.getElementById("resusDoseEpiOHCA").innerHTML = DoseEpiOHCA + UoMEpiOHCA;
+	document.getElementById("resusDoseEpiROSC").innerHTML = DoseEpiROSC + UoMEpiROSC;
+	document.getElementById("resusDoseGluOHCA").innerHTML = DoseGluOHCA + UoMGluOHCA;
+	document.getElementById("resusDoseGluOHCARpt").innerHTML = DoseGluOHCARpt + UoMGluOHCA;
+	document.getElementById("resusDoseNSOHCA").innerHTML = DoseNSOHCA + UoMNSOHCA;
+	document.getElementById("resusDoseNSROSC").innerHTML = DoseNSROSC + UoMNSROSC;
+	document.getElementById("resusDoseNSROSCSubsequent").innerHTML = DoseNSROSC + UoMNSROSC;
+	document.getElementById("resusDoseVent").innerHTML = DoseVent;
+	//Presentations
+	document.getElementById("resusepiconc").innerHTML = epiconc;
+	document.getElementById("resusVolAmiOHCA").innerHTML = VolAmiOHCA + "mL";
+	document.getElementById("resusVolAmiSub").innerHTML = VolAmiSub + "mL";	
+	document.getElementById("resusVolLigOHCA").innerHTML = VolLigOHCA + "mL";
+	document.getElementById("resusVolLigSub").innerHTML = VolLigSub + "mL";	
+	document.getElementById("resusVolEpiOHCA").innerHTML = VolEpiOHCA + "mL";
+	document.getElementById("resusVolEpiROSC").innerHTML = VolEpiROSC + "mL";
+	document.getElementById("resusVolGluOHCA").innerHTML = VolGluOHCA + "mL";
+	document.getElementById("resusVolGluOHCARpt").innerHTML = VolGluOHCARpt + "mL";
+	
+}
+
+function clearResus() {
+	// Resets "Medication Contraindicated (medcontraid) classes
+	$('.medcontraid').removeClass('medcontraid');
+const idsToClear = ["resusDoseVent", "resusDoseAmiOHCA", "resusDoseAmiSub", "resusDoseLigOHCA", "resusDoseLigSub", "resusDoseEpiOHCA", "resusDoseEpiROSC", "resusDoseGluOHCA", "resusDoseGluOHCARpt", "resusDoseNSOHCA", "resusDoseNSROSC", "resusDoseNSROSCSubsequent", "resusepiconc", "resusVolAmiOHCA", "resusVolAmiSub", "resusVolLigOHCA", "resusVolLigSub", "resusVolEpiOHCA", "resusVolEpiROSC", "resusVolGluOHCA", "resusVolGluOHCARpt"];
+
+for (let i = 0; i < idsToClear.length; i++) {
+  document.getElementById(idsToClear[i]).innerHTML = '';
+}
+};

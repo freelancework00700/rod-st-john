@@ -1,0 +1,133 @@
+function calcMidazolam() {
+	var mode = sessionStorage.getItem("patientmode");
+	var weight = sessionStorage.getItem("patientweight");
+	var geriatric = sessionStorage.getItem("patientgeriatric");
+	// CPG administration per kilogram of drug
+	var ConcMidazIM = 0.2;
+	var ConcMidazIV = 0.1;
+	var DoseMidazSedationIVLow;
+	var DoseMidazSedationIVHi;
+	var VolMidazSedationIVLow;
+	var VolMidazSedationIVHi;
+	// Concentration (mcg/mg) per millilitre of drug
+	var PresMidazIM = 5;
+	var PresMidazIV = 1;
+	//Unit of Measure per medication
+	var UoMMidazIM = "mg";
+	var UoMMidazIV = "mg";
+	// Calculations of drug dosages
+	var DoseMidazIM = (weight * ConcMidazIM);
+	var DoseMidazIV = (weight * ConcMidazIV);
+	//MIDAZOLAM (general)
+  switch(mode) {
+      case "Paediatric":
+          document.getElementById("midazO70vol").style.display = "none";
+		      document.getElementById("midazO70dose").style.display = "none";
+          break;
+      case "Newborn":
+          document.getElementById("midazO70vol").style.display = "none";
+		      document.getElementById("midazO70dose").style.display = "none";
+          break;
+      default:
+        document.getElementById("midazO70vol").style.display = "inline-block";
+		    document.getElementById("midazO70dose").style.display = "inline-block";
+  };
+	if (mode == "Adult" && geriatric == "false") {
+		DoseMidazIV = 2.5;
+		DoseMidazIM = 5;
+		document.getElementById("midazO70dose").style.display = "inline-block";
+		document.getElementById("midazO70vol").style.display = "inline-block";
+		DoseMidazSedationIVLow = 1;
+		DoseMidazSedationIVHi = 2;
+	} else if (mode == "Adult" && geriatric == "true") {
+		DoseMidazIV = 2.5;
+		DoseMidazIM = 2.5;
+		document.getElementById("midazO70dose").style.display = "none";
+		document.getElementById("midazO70vol").style.display = "none";
+		DoseMidazSedationIVLow = 0.5;
+		DoseMidazSedationIVHi = 1;
+	};
+	//Paediatrics (IM)
+	if (mode == "Paediatric" && DoseMidazIM >= 5) {
+		var DoseMidazIM = 5;
+		document.getElementById("DoseMidazIM").style.color = "red";
+		document.getElementById("VolMidazIM").style.color = "red";
+	} else {
+		document.getElementById("DoseMidazIM").style.color = "inherit";
+		document.getElementById("VolMidazIM").style.color = "inherit";
+	}
+	//Paediatrics (IV)
+	if (mode == "Paediatric" && DoseMidazIV >= 2.5) {
+		var DoseMidazIV = 2.5;
+		document.getElementById("DoseMidazIV").style.color = "red";
+		document.getElementById("VolMidazIV").style.color = "red"
+	} else {
+		document.getElementById("DoseMidazIV").style.color = "inherit";
+		document.getElementById("VolMidazIV").style.color = "inherit";
+	}
+	//Paediatrics (Sedation)
+	if (mode == "Paediatric" && weight < 20) {
+		DoseMidazSedationIVLow = 0;
+		DoseMidazSedationIVHi = 0;
+	} else if (mode == "Paediatric" && weight >= 20) {
+		DoseMidazSedationIVLow = 0.5;
+		DoseMidazSedationIVHi = 1;
+	}
+  if (mode == "Newborn" && weight < 6) {
+		DoseMidazSedationIVLow = 0;
+		DoseMidazSedationIVHi = 0;
+	}
+	// Calculations of drug volumes
+	var VolMidazIM = (DoseMidazIM / PresMidazIM);
+	var VolMidazIV = (DoseMidazIV / PresMidazIV);
+	var VolMidazSedationIVLow = (DoseMidazSedationIVLow / PresMidazIV);
+	var VolMidazSedationIVHi = (DoseMidazSedationIVHi / PresMidazIV);
+	//Correct rounding issues
+	if (DoseMidazIM != parseInt(DoseMidazIM)) DoseMidazIM = DoseMidazIM.toFixed(2);
+	if (DoseMidazIV != parseInt(DoseMidazIV)) DoseMidazIV = DoseMidazIV.toFixed(2);
+	if (VolMidazIM != parseInt(VolMidazIM)) VolMidazIM = VolMidazIM.toFixed(2);
+	if (VolMidazIV != parseInt(VolMidazIV)) VolMidazIV = VolMidazIV.toFixed(2);
+	if (VolMidazSedationIVLow != parseInt(VolMidazSedationIVLow)) VolMidazSedationIVLow = VolMidazSedationIVLow.toFixed(2);
+	if (VolMidazSedationIVHi != parseInt(VolMidazSedationIVHi)) VolMidazSedationIVHi = VolMidazSedationIVHi.toFixed(2);
+	if (DoseMidazSedationIVLow != parseInt(DoseMidazSedationIVLow)) DoseMidazSedationIVLow = DoseMidazSedationIVLow.toFixed(2);
+	if (DoseMidazSedationIVHi != parseInt(DoseMidazSedationIVHi)) DoseMidazSedationIVHi = DoseMidazSedationIVHi.toFixed(2);
+	// Place drug dosages into table
+	document.getElementById("DoseMidazIM").innerHTML = DoseMidazIM + UoMMidazIM;
+	document.getElementById("DoseMidazIV").innerHTML = DoseMidazIV + UoMMidazIV;
+	document.getElementById("DoseMidazSedationIVLow").innerHTML = DoseMidazSedationIVLow;
+	document.getElementById("DoseMidazSedationIVHi").innerHTML = DoseMidazSedationIVHi + UoMMidazIV;
+	//Volumes
+	document.getElementById("VolMidazIM").innerHTML = VolMidazIM + "mL";
+	document.getElementById("VolMidazIV").innerHTML = VolMidazIV + "mL";
+	document.getElementById("VolMidazSedationIVLow").innerHTML = DoseMidazSedationIVLow;
+	document.getElementById("VolMidazSedationIVHi").innerHTML = DoseMidazSedationIVHi + "mL";
+	//Setting contraindication class to all calculations where the dosage is set at zero.
+	const elementsToCheck = ["DoseMidazIM", "DoseMidazIV", "DoseMidazSedationIVLow", "DoseMidazSedationIVHi"];
+	for (let i = 0; i < elementsToCheck.length; i++) {
+	const element = document.getElementById(elementsToCheck[i]);
+	if (element.innerHTML == 0) {
+    element.parentElement.classList.add('medcontraid');
+	}
+	}
+}
+
+function clearMidazolam() {
+const elementIds = [
+  "DoseMidazIM",
+  "DoseMidazIV",
+  "VolMidazIM",
+  "VolMidazIV",
+  "DoseMidazSedationIVLow",
+  "DoseMidazSedationIVHi",
+  "VolMidazSedationIVLow",
+  "VolMidazSedationIVHi" 
+];
+
+elementIds.forEach((id) => {
+  const element = document.getElementById(id);
+  if (element) {
+    element.style.display = "initial";
+    element.innerHTML = "";
+  }
+});
+};

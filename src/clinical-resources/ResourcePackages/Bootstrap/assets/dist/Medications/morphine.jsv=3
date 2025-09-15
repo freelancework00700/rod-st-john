@@ -1,0 +1,124 @@
+function calcMorphine() {
+	let mode = sessionStorage.getItem("patientmode");
+	let weight = sessionStorage.getItem("patientweight");
+	let geriatric = sessionStorage.getItem("patientgeriatric");
+	
+	// CPG administration per kilogram of drug
+	var ConcMorphAnalHi = 0.1;
+	var ConcMorphAnalIMHi = 0.2;
+	var ConcMorphAnalIMLo = 0.1;
+	var ConcMorphAnalLo = 0.05;
+	var ConcMorphSedLo = 0.1;
+	var ConcMorphSedHi = 0.2;
+	if (mode == "Paediatric") {
+		var ConcMorphSedLo = 0.01;
+		var ConcMorphSedHi = 0.04;
+	}
+	// Concentration (mcg/mg) per millilitre of drug
+	var PresMorphAnal = 1;
+	var PresMorphAnalIM = 15;
+	var PresMorphSed = 1;
+	//Unit of Measure per medication
+	var UoMMorphAnal = "mg";
+	var UoMMorphAnalIM = "mg";
+	var UoMMorphSed = "mg";
+	// Calculations of drug dosages
+	var DoseMorphAnalHi = (weight * ConcMorphAnalHi);
+	var DoseMorphAnalIMHi = (weight * ConcMorphAnalIMHi);
+	var DoseMorphAnalIMLo = (weight * ConcMorphAnalIMLo);
+	var DoseMorphAnalLo = (weight * ConcMorphAnalLo);
+	var DoseMorphSedHi = (weight * ConcMorphSedHi);
+	var DoseMorphSedLo = (weight * ConcMorphSedLo);
+	//Dosages
+	if (mode == "Adult" && geriatric == "false") {
+		var DoseMorphAnalIMLo = 5,
+			DoseMorphAnalIMHi = 10,
+			DoseMorphAnalLo = 2.5,
+			DoseMorphAnalHi = 5,
+			DoseMorphSedLo = 1,
+			DoseMorphSedHi = 20;
+	} else if (mode == "Adult" && geriatric == "true") {
+		var DoseMorphAnalIMLo = 2,
+			DoseMorphAnalIMHi = 5,
+			DoseMorphAnalLo = 0.5,
+			DoseMorphAnalHi = 2.5,
+			DoseMorphSedLo = 1,
+			DoseMorphSedHi = 20;
+	} else if (weight < 10) {
+			var DoseMorphAnalIMLo = 0,
+			DoseMorphAnalIMHi = 0,
+			DoseMorphAnalLo = 0,
+			DoseMorphAnalHi = 0,
+			DoseMorphSedLo = 0,
+			DoseMorphSedHi = 00;
+	};
+	// Calculations of drug volumes
+	var VolMorphAnalHi = (DoseMorphAnalHi / PresMorphAnal);
+	var VolMorphAnalIMHi = (DoseMorphAnalIMHi / PresMorphAnalIM);
+	var VolMorphAnalIMLo = (DoseMorphAnalIMLo / PresMorphAnalIM);
+	var VolMorphAnalLo = (DoseMorphAnalLo / PresMorphAnal);
+	var VolMorphSedHi = (DoseMorphSedHi / PresMorphSed);
+	var VolMorphSedLo = (DoseMorphSedLo / PresMorphSed);
+	//Correct rounding issues
+	if (DoseMorphAnalHi != parseInt(DoseMorphAnalHi)) DoseMorphAnalHi = DoseMorphAnalHi.toFixed(2);
+	if (DoseMorphAnalIMHi != parseInt(DoseMorphAnalIMHi)) DoseMorphAnalIMHi = DoseMorphAnalIMHi.toFixed(2);
+	if (DoseMorphAnalIMLo != parseInt(DoseMorphAnalIMLo)) DoseMorphAnalIMLo = DoseMorphAnalIMLo.toFixed(2);
+	if (DoseMorphAnalLo != parseInt(DoseMorphAnalLo)) DoseMorphAnalLo = DoseMorphAnalLo.toFixed(2);
+	if (DoseMorphSedHi != parseInt(DoseMorphSedHi)) DoseMorphSedHi = DoseMorphSedHi.toFixed(2);
+	if (DoseMorphSedLo != parseInt(DoseMorphSedLo)) DoseMorphSedLo = DoseMorphSedLo.toFixed(2);
+	if (VolMorphAnalHi != parseInt(VolMorphAnalHi)) VolMorphAnalHi = VolMorphAnalHi.toFixed(2);
+	if (VolMorphAnalIMHi != parseInt(VolMorphAnalIMHi)) VolMorphAnalIMHi = VolMorphAnalIMHi.toFixed(2);
+	if (VolMorphAnalIMLo != parseInt(VolMorphAnalIMLo)) VolMorphAnalIMLo = VolMorphAnalIMLo.toFixed(2);
+	if (VolMorphAnalLo != parseInt(VolMorphAnalLo)) VolMorphAnalLo = VolMorphAnalLo.toFixed(2);
+	if (VolMorphSedHi != parseInt(VolMorphSedHi)) VolMorphSedHi = VolMorphSedHi.toFixed(2);
+	if (VolMorphSedLo != parseInt(VolMorphSedLo)) VolMorphSedLo = VolMorphSedLo.toFixed(2);
+	// Place drug dosages into table
+	document.getElementById("DoseMorphAnalHi").innerHTML = DoseMorphAnalHi + UoMMorphAnal;
+	document.getElementById("DoseMorphAnalIMHi").innerHTML = DoseMorphAnalIMHi + UoMMorphAnal;
+	document.getElementById("DoseMorphAnalIMLo").innerHTML = DoseMorphAnalIMLo;
+	document.getElementById("DoseMorphAnalLo").innerHTML = DoseMorphAnalLo;
+	document.getElementById("DoseMorphSedLo").innerHTML = DoseMorphSedLo;
+	if (mode == "Adult") {
+		document.getElementById("DoseMorphSedHi").innerHTML = DoseMorphSedHi + UoMMorphSed + ") per hour.";
+		document.getElementById("MorphSedAdult").style.display = "inherit"
+	} else {
+		document.getElementById("DoseMorphSedHi").innerHTML = DoseMorphSedHi + UoMMorphSed + ") per hour.";
+		document.getElementById("MorphSedAdult").style.display = "none"
+	};
+	//Presentations
+	document.getElementById("PresMorphAnal").innerHTML = PresMorphAnal + UoMMorphAnal;
+	document.getElementById("PresMorphAnalIM").innerHTML = PresMorphAnalIM + UoMMorphAnalIM;
+	document.getElementById("PresMorphSed").innerHTML = PresMorphSed + UoMMorphSed;
+	//Volumes
+	document.getElementById("VolMorphAnalHi").innerHTML = VolMorphAnalHi + "mL";
+	document.getElementById("VolMorphAnalIMHi").innerHTML = VolMorphAnalIMHi + "mL";
+	document.getElementById("VolMorphAnalIMLo").innerHTML = VolMorphAnalIMLo;
+	document.getElementById("VolMorphAnalLo").innerHTML = VolMorphAnalLo;
+	document.getElementById("VolMorphSedHi").innerHTML = VolMorphSedHi + "mL";
+	document.getElementById("VolMorphSedLo").innerHTML = VolMorphSedLo;
+	//Setting contraindication class to all calculations where the dosage is set at zero.
+	if (DoseMorphAnalHi == 0) {document.getElementById("DoseMorphAnalHi").parentElement.classList.add('medcontraid')};
+	if (DoseMorphAnalIMHi == 0) {document.getElementById("DoseMorphAnalIMHi").parentElement.classList.add('medcontraid')};
+	if (DoseMorphAnalIMLo == 0) {document.getElementById("DoseMorphAnalIMLo").parentElement.classList.add('medcontraid')};
+	if (DoseMorphAnalLo == 0) {document.getElementById("DoseMorphAnalLo").parentElement.classList.add('medcontraid')};
+	if (DoseMorphSedLo == 0) {document.getElementById("DoseMorphSedLo").parentElement.classList.add('medcontraid')};
+}
+
+function clearMorphine() {
+	document.getElementById("DoseMorphAnalHi").innerHTML = '';
+	document.getElementById("DoseMorphAnalIMHi").innerHTML = '';
+	document.getElementById("DoseMorphAnalIMLo").innerHTML = '';
+	document.getElementById("DoseMorphAnalLo").innerHTML = '';
+	document.getElementById("DoseMorphSedLo").innerHTML = '';
+	document.getElementById("DoseMorphSedHi").innerHTML = '';
+	document.getElementById("MorphSedAdult").style.display = '';
+	document.getElementById("PresMorphAnal").innerHTML = '';
+	document.getElementById("PresMorphAnalIM").innerHTML = '';
+	document.getElementById("PresMorphSed").innerHTML = '';
+	document.getElementById("VolMorphAnalHi").innerHTML = '';
+	document.getElementById("VolMorphAnalIMHi").innerHTML = '';
+	document.getElementById("VolMorphAnalIMLo").innerHTML = '';
+	document.getElementById("VolMorphAnalLo").innerHTML = '';
+	document.getElementById("VolMorphSedHi").innerHTML = '';
+	document.getElementById("VolMorphSedLo").innerHTML = '';
+};

@@ -1,0 +1,63 @@
+var acc = document.getElementsByClassName("accordion");
+var racc = document.getElementsByClassName("refaccord");
+var cacc = document.getElementsByClassName("calcaccord");
+var i;
+var j;
+var k;
+
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+
+var panel = this.nextElementSibling;
+if (panel.style.maxHeight){
+  panel.style.maxHeight = null;
+  this.classList.remove("accordexpanded");
+} else {
+  let accordexpanded = document.querySelectorAll(".sf_colsIn .accordion.accordexpanded");
+  for(let i = 0; i < accordexpanded.length; i++){
+    accordexpanded[i].classList.remove("accordexpanded");
+    accordexpanded[i].nextElementSibling.style.maxHeight = null;
+  }
+  this.classList.toggle("accordexpanded");
+  panel.style.maxHeight = panel.scrollHeight + "px";
+}
+});
+}
+
+for (j = 0; j < racc.length; j++) {
+racc[j].addEventListener("click", function() {
+
+var panel = document.getElementById("referencepanel");
+if (panel.style.maxHeight){
+  panel.style.maxHeight = null;
+  this.classList.remove("refaccordopen");
+} else {
+  let refaccordexpanded = document.querySelectorAll(".sf_colsIn .refaccord.refaccordopen");
+  for(let j = 0; j < refaccordexpanded.length; j++){
+    refaccordexpanded[j].classList.remove("refaccordopen");
+    refaccordexpanded[j].nextElementSibling.style.maxHeight = null;
+  }
+  this.classList.toggle("refaccordopen");
+  panel.style.maxHeight = panel.scrollHeight + "px";
+}
+});
+}
+
+for (k = 0; k < cacc.length; k++) {
+cacc[k].addEventListener("click", function() {
+
+var panel = document.getElementById("calcpanel");
+if (panel.style.maxHeight){
+  panel.style.maxHeight = null;
+  this.classList.remove("calcaccordopen");
+} else {
+  let calcaccordexpanded = document.querySelectorAll(".sf_colsIn .calcaccord.calcaccordopen");
+  for(let k = 0; k < calcaccordexpanded.length; k++){
+    calcaccordexpanded[k].classList.remove("calcaccordopen");
+    calcaccordexpanded[k].nextElementSibling.style.maxHeight = null;
+  }
+  this.classList.toggle("calcaccordopen");
+  panel.style.maxHeight = panel.scrollHeight + "px";
+}
+});
+}

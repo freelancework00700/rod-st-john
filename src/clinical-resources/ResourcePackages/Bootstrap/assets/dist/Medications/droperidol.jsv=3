@@ -1,0 +1,97 @@
+function calcDroperidol() {
+	var mode = sessionStorage.getItem("patientmode");
+	var weight = sessionStorage.getItem("patientweight");
+	var geriatric = sessionStorage.getItem("patientgeriatric");
+
+// Droperidol parameters
+const ConcDroperidol = 0.2; // mg/kg
+const PresDroperidolIM = 5; // mcg/mg
+const PresDroperidolIV = 1; // mcg/mg
+const UoMDroperidol = "mg"; // unit of measure
+
+// Show/hide Droperidol sections based on patient mode
+if (mode == "Adult" && geriatric == "false") {
+  document.getElementById("GeriatricDroperidolIM").style.display = "none";
+  document.getElementById("AdultDroperidolIM").style.display = "revert";
+  document.getElementById("PaedDroperidolIM").style.display = "none";
+  document.getElementById("GeriatricDroperidolIV").style.display = "none";
+  document.getElementById("AdultDroperidolIV").style.display = "revert";
+  document.getElementById("PaedDroperidolIV").style.display = "none";
+} else if (mode == "Adult" && geriatric == "true") {
+  document.getElementById("GeriatricDroperidolIM").style.display = "revert";
+  document.getElementById("AdultDroperidolIM").style.display = "none";
+  document.getElementById("PaedDroperidolIM").style.display = "none";
+  document.getElementById("GeriatricDroperidolIV").style.display = "revert";
+  document.getElementById("AdultDroperidolIV").style.display = "none";
+  document.getElementById("PaedDroperidolIV").style.display = "none";
+} else if (mode === "Paediatric") {
+  document.getElementById("GeriatricDroperidolIM").style.display = "none";
+  document.getElementById("AdultDroperidolIM").style.display = "none";
+  document.getElementById("PaedDroperidolIM").style.display = "revert";
+  document.getElementById("GeriatricDroperidolIV").style.display = "none";
+  document.getElementById("AdultDroperidolIV").style.display = "none";
+  document.getElementById("PaedDroperidolIV").style.display = "revert";
+}
+
+// Calculate Droperidol dose
+let DoseDroperidolIM =  weight * ConcDroperidol;
+let DoseDroperidolIV =  weight * ConcDroperidol;
+
+// Check if DoseDroperidol is greater than the maximum for paediatric patients
+if (mode === "Paediatric" && DoseDroperidolIM >= 5) {
+  DoseDroperidolIM = 5;
+  document.getElementById("DoseDroperidolIM").style.color = "red";
+  document.getElementById("VolDroperidolIM").style.color = "red";
+} else {
+  document.getElementById("DoseDroperidolIM").style.color = "inherit";
+  document.getElementById("VolDroperidolIM").style.color = "inherit";
+}
+
+// Calculate Droperidol volume
+let VolDroperidolIM = DoseDroperidolIM / PresDroperidolIM;
+let VolDroperidolIV = DoseDroperidolIV / PresDroperidolIV;
+
+if (mode === "Paediatric" && DoseDroperidolIV >= 5) {
+  DoseDroperidolIV = 5;
+  VolDroperidolIV = 5;
+  document.getElementById("DoseDroperidolIV").style.color = "red";
+  document.getElementById("VolDroperidolIV").style.color = "red";
+} else {
+  document.getElementById("DoseDroperidolIV").style.color = "inherit";
+  document.getElementById("VolDroperidolIV").style.color = "inherit";
+}
+
+// Check if weight is within range
+if (weight >= 0 && weight <= 19) {
+  DoseDroperidolIM = 0;
+  VolDroperidolIM = 0;
+  DoseDroperidolIV = 0;
+  VolDroperidolIV = 0;
+}
+
+// Format volume to two decimal places
+DoseDroperidolIM = DoseDroperidolIM.toFixed(2);
+DoseDroperidolIV = DoseDroperidolIV.toFixed(2);
+VolDroperidolIM = VolDroperidolIM.toFixed(2);
+VolDroperidolIV = VolDroperidolIV.toFixed(2);
+
+// Display results in table
+document.getElementById("DoseDroperidolIM").innerHTML = DoseDroperidolIM + UoMDroperidol;
+document.getElementById("VolDroperidolIM").innerHTML = VolDroperidolIM + "mL";
+document.getElementById("DoseDroperidolIV").innerHTML = DoseDroperidolIV+ UoMDroperidol;
+document.getElementById("VolDroperidolIV").innerHTML = VolDroperidolIV + "mL";
+
+// Add contraindication class if DoseDroperidol is zero
+if (DoseDroperidolIM === 0) {
+  document.getElementById("DoseDroperidol").parentElement.classList.add("medcontraid");
+}
+
+if (DoseDroperidolIV === 0) {
+  document.getElementById("DoseDroperidol").parentElement.classList.add("medcontraid");
+}
+
+}
+
+function clearall() {
+	document.getElementById("DoseDroperidol").innerHTML = '';
+};

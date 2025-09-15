@@ -1,0 +1,296 @@
+﻿.med-calc .med-calc-output {
+border:1px solid red;border-radius:4px;
+padding: 2px;
+margin: 2px;
+}
+
+.med-calc .med-iv {
+background-color: rgba(18, 128, 64, 0.2);
+}
+.med-calc .med-im {
+background-color: rgba(255, 192, 128, 0.2)
+}
+
+.med-calc {
+padding: 4px;
+}
+
+.med-calc [data-placeholder-label="Calculator Outputs"] {
+margin-top:4px;
+}
+
+.med-calc .clearbutton {
+	border-radius: 4px;
+	border: 4px solid #bfbfbf;
+	width: 100%;
+	padding: 5px 10px;
+	display: inline-block;
+	max-width: 100%;
+	font-weight: 700;
+	cursor: pointer;
+}
+.med-calc label.paramselector {
+	padding: 10px;
+	border-radius: 4px;
+	border: 4px solid #bfbfbf;
+	width: 100%;
+	padding: 5px 10px;
+}
+.med-calc input[type="radio"]:checked+label {
+	background: #128040;
+	border-color: #128040;
+	font-weight: bold;
+	color: #fff;
+}
+.med-calc .param {
+	text-align: center;
+}
+.med-calc .ageweightselector {
+	display: none;
+}
+.med-calc .inputarea {
+	border-color: #d7d8d6;
+}
+.med-calc .inputarea>tbody>tr>td {
+	border: none;
+}
+.med-calc .pmedim {
+	background-color: #FFDFBF
+}
+.med-calc .pmediv {
+	background-color: #C4E0D0;
+}
+.med-calc table.medaccordion {
+	cursor: pointer;
+	padding: 5px;
+	width: 100%;
+	border: none;
+	text-align: left;
+	outline: none;
+}
+.med-calc table.medaccordexpanded {
+	background-color: #333;
+	color: #fff;
+}
+.med-calc table.medaccordion tr:hover {
+	background-color: #333!important;
+	color: #fff;
+}
+
+.med-calc .mediv {
+	width: 10%;
+	color: #fff;
+	padding: 4px;
+	border-radius: 4px;
+	background-color: #128040;
+	-webkit-print-color-adjust: exact;
+}
+.med-calc .medim {
+	width: 10%;
+	color: #333;
+	padding: 4px;
+	border-radius: 4px;
+	background-color: #FFC080;
+	-webkit-print-color-adjust: exact;
+}
+.med-calc .medoth {
+	width: 10%;
+	color: #333;
+	padding: 4px;
+	border-radius: 4px;
+	background-color: #f5f5f5;
+	-webkit-print-color-adjust: exact;
+}
+
+.med-calc #observations {
+	display: none;
+}
+
+.med-calc #ohcatable {
+	border: 1px solid #C8102E;
+	padding: 5px;
+	table-layout: fixed;
+	display: none;
+}
+.med-calc #ohcatable a:hover {
+	font-weight: bold
+}
+.med-calc .ohcaheader {
+	background-color: #333F48;
+	color: #fff;
+	border-bottom: none;
+}
+.med-calc .ohcaheader a {
+	color: #fff;
+}
+.med-calc .roscheader {
+	background-color: #FF9E1B;
+	color: #333;
+	border-bottom: none;
+}
+.med-calc .roscheader a {
+	color: #333
+}
+.med-calc #rxcalctable {
+	display: none;
+}
+.med-calc .rxcalcheader {
+	width: 50%;
+}
+.med-calc #ccpcalctable {
+	display: none;
+}
+.med-calc .ccpcalcheader {
+	background-color: #800040;
+	color: #fff;
+	border-bottom: none;
+}
+.med-calc table {
+	border: 1px solid #C8102E;
+	padding: 5px;
+	width: 100%;
+}
+.med-calc td {
+	padding: 5px;
+	border-top: none;
+}
+.med-calc .pxdose {
+	border: none;
+	border-right: none;
+	border-left: none;
+}
+.med-calc .panelctrl {
+	width: 100%;
+	padding: 10px;
+	background-color: #FF8888;
+	border: none;
+}
+.med-calc .panelctrlactive {
+	width: 100%;
+	padding: 10px;
+	background-color: #CFF8AE;
+	border: none;
+}
+.med-calc a.rxbtn {
+	display: inline-block;
+	background: #d7d8d6;
+	text-align: center;
+	font-weight: bold;
+	border-radius: 6px;
+	padding: 0px 5px;
+	border: 1px solid #c8102e;
+}
+.med-calc .rxpaedonly {
+	display: inline-block;
+	padding: 0.4em 0.7em;
+	font-weight: 700;
+	line-height: 1;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: .25rem;
+	background-color: #800040;
+	color: #fff;
+}
+@media (prefers-color-scheme: dark) {
+	.med-calc table.medaccordexpanded {
+		color: #333;
+	}
+}
+/* Styles for making medication names look like their labels - MD Last update: 05.01.21 (inc. high risk misc and Ami) */
+
+.med-calc .mc {
+	display: inline-block;
+	padding: 0.4em 0.7em;
+	font-weight: 700;
+	line-height: 1;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: .25rem;
+}
+.med-calc a.mc {
+	color: #000 !important;
+}
+.med-calc a.mc-adrenaline {
+	color: rgb(222, 191, 217) !important;
+}
+.med-calc .mc-induction {
+	background-color: rgb(255, 255, 0);
+	color: #000;
+}
+.med-calc .mc-benzo {
+	background-color: rgb(255, 102, 0);
+	color: #000;
+}
+.med-calc .mc-muscle {
+	background-color: rgb(245, 64, 41);
+	color: #000;
+}
+.med-calc .mc-sux {
+	background: linear-gradient(rgb(0, 0, 0) 70%, rgb(245, 64, 41) 30%);
+	padding-bottom: 0.9em;
+	color: rgb(245, 64, 41);
+}
+.med-calc .mc-opioid {
+	background-color: rgb(133, 199, 227);
+	color: #000;
+}
+.med-calc .mc-opioid-antag {
+	background: repeating-linear-gradient( -55deg, rgb(133, 199, 227), rgb(133, 199, 227) 2px, #FFF 2px, #FFF 4px);
+	color: #000;
+}
+.med-calc .mc-vasopressor {
+	background-color: rgb(222, 191, 217);
+	color: #000;
+}
+.med-calc .mc-adrenaline {
+	background: linear-gradient(rgb(0, 0, 0) 70%, rgb(222, 191, 217) 30%);
+	padding-bottom: 0.9em;
+	color: rgb(222, 191, 217);
+}
+.med-calc .mc-hypotensive {
+	background-color: rgb(222, 191, 217);
+	border: 3px #FFF solid;
+	color: #000;
+}
+.med-calc .mc-local {
+	background-color: rgb(194, 184, 171);
+	color: #000;
+}
+.med-calc .mc-antichol {
+	background-color: rgb(163, 217, 99);
+	color: #000;
+}
+.med-calc .mc-antiemetic {
+	background-color: rgb(237, 194, 130);
+	color: #000;
+}
+.med-calc .mc-heparin {
+	background-color: rgb(34, 211, 197);
+	color: #000;
+	border: 3px #000 solid;
+}
+.med-calc .mc-misc {
+	background-color: #FFF;
+	color: #000;
+	border: 1px solid black;
+}
+.med-calc .mc-mischighrisk {
+	background-color: #FFF;
+	color: rgb(245, 64, 41);
+	border: 1px solid red;
+}
+.med-calc .mc-antidys {
+	color: #FFF;
+	background-color: rgb(6, 143, 169);
+}
+.med-calc .medcontraid {
+	background-color: #FF8888!important;
+	padding: 5px;
+	-webkit-print-color-adjust: exact;
+}
+.med-calc .medcontraid::before {
+	content: "CONTRAINDICATED\A";
+	white-space: pre-wrap;
+}

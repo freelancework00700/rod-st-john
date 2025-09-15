@@ -1,0 +1,54 @@
+﻿.calc-input-table {
+	border-collapse: collapse;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	width: 100%;
+}
+.calc-input-table th, .calc-input-table td {
+	padding: 15px;
+	text-align: left;
+	border: 1px solid #ccc;
+}
+.calc-input-table th {
+	background-color: #c8102e;
+	color: white;
+	border-radius: 5px 5px 0 0;
+}
+.calc-input-table tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+.calc-input-table input[type="text"], .calc-input-table input[type="number"], .calc-input-table select, .calc-input-table input[type="radio"] {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-sizing: border-box;
+	margin-top: 5px;
+}
+.calc-input-table input[type="radio"] {
+	width: auto;
+	margin-right: 10px;
+}
+.calc-input-table input[type="text"]:focus, .calc-input-table input[type="number"]:focus, .calc-input-table select:focus, .calc-input-table input[type="radio"]:focus {
+	outline-color: #c8102e;
+	box-shadow: 0 0 5px rgba(200, 16, 46, 0.8);
+}
+.calc-input-table button {
+	background-color: #c8102e;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+.calc-input-table button:hover {
+	background-color: #960018;
+}
+@media (min-width: 992px) {
+	.calc-input-table {
+		width: fit-content;
+		min-width: 200px;
+	}
+}

@@ -84,6 +84,7 @@ function blobToBase64(blob) {
 
 function loadPage(url) {
     currentUrl = url;
+    console.log('currentUrl:', currentUrl);
     if (typeof url === 'string' && (url.toLowerCase().includes('other-departments/sitepages/login.html') || url.toLowerCase().includes('loginexternalprovider/azure%20ad'))) {
         openExternal(AZURE_LOGIN_URL);
         return;
