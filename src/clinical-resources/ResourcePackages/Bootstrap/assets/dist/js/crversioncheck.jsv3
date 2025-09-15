@@ -1,0 +1,81 @@
+async function checkClinResVers() {
+  const statusEl = document.getElementById("version-status");
+  const statusP = document.getElementById("version-status-msg");
+  const localVersion = document.getElementById("localVersion")?.getAttribute("data-version");
+
+  // Check if required elements exist
+  if (!statusEl || !statusP) {
+    console.error("Required DOM elements not found");
+    return;
+  }
+
+  // Only show version info in the packaged app, not in the public web version
+  let mattTestValue;
+  try {
+    mattTestValue = sessionStorage.getItem("MattTest");
+  } catch (e) {
+    mattTestValue = null;
+  }
+
+  if (!isProbablyPackagedApp() && mattTestValue === "false") {
+    statusEl.remove();
+    return;
+  }
+
+  // Reset status display
+  statusEl.className = "";
+  statusP.textContent = "";
+
+  if (!localVersion) {
+    console.error("No local version found in HTML.");
+    statusP.textContent = "Unable to check if this version of Clinical Resources is current or not. When able and online, go back to the main screen of the St John Resources app and refresh to check.";
+    statusEl.classList.add("labelred");
+    return;
+  }
+
+  if (!navigator.onLine) {
+    console.warn("User is offline – cannot check version.");
+    statusP.textContent = "You are not connected to the internet. We cannot check if this version is up to date.";
+    statusEl.classList.add("labelred");
+    return;
+  }
+
+  const url = "https://clinical.stjohnwa.com.au/ResourcePackages/Bootstrap/assets/dist/crversion.txt";
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Server responded with status: ${response.status}`);
+    }
+
+    const onlineVersion = (await response.text()).trim();
+
+    if (onlineVersion === localVersion) {
+      statusP.textContent = "This version is up to date.";
+      statusEl.classList.add("labelgreen");
+    } else {
+      statusP.textContent = "This version is out of date. Please check for updates on the main screen of the St John Resources app.";
+      statusEl.classList.add("labelred");
+    }
+
+  } catch (error) {
+    console.error("Version check failed:", error.message);
+    
+    // Check for CSP or network restriction errors
+    if (error.name === 'TypeError' && 
+        (error.message.includes('Failed to fetch') || 
+         error.message.includes('Network request failed') ||
+         error.message.includes('blocked by CORS') ||
+         error.message.toLowerCase().includes('content security policy'))) {
+      statusP.textContent = "Version check is temporarily unavailable in this app version. Your content should still work normally.";
+    } else if (error.name === 'TypeError') {
+      // Generic network/fetch error
+      statusP.textContent = "Unable to connect to check for updates. Your content should still work normally.";
+    } else {
+      // Other errors
+      statusP.textContent = "We could not check if this version is up to date. Please try again later.";
+    }
+    
+    statusEl.classList.add("labelred");
+  }
+}
