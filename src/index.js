@@ -1,11 +1,11 @@
-import { Filesystem, Directory } from '@capacitor/filesystem';
-import { Share } from '@capacitor/share';
-import { Browser } from '@capacitor/browser';
 import { App } from '@capacitor/app';
+import { Browser } from '@capacitor/browser';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { FileOpener } from '@capacitor-community/file-opener';
 
+let currentUrl;
 let iframeHistory = [];
 let currentIndex = -1;
-let currentUrl;
 const AZURE_LOGIN_URL = 'https://clinical.stjohnwa.com.au/medical-library/other/library/login-user-profile/LoginExternalProvider/Azure%20AD/';
 
 const siteListingHTML = document.getElementById('content').innerHTML;
@@ -120,11 +120,11 @@ async function openPdfAndroid(url) {
             directory: Directory.Data,
         });
 
-        await Share.share({
-            title: "Open PDF",
-            url: uri,
-            dialogTitle: "Open with..."
-        });
+		await FileOpener.open({
+			filePath: uri,
+			openWithDefault: true,
+			contentType: 'application/pdf',
+		});
     } catch (err) {
         console.error("Error opening PDF", err);
     }
