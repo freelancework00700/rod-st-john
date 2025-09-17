@@ -1,5 +1,6 @@
 {
   "webDir": "dist",
+  "zoomEnabled": true,
   "appName": "St John Resources",
   "appId": "au.com.stjohnwa.stjohnresource",
   "plugins": {
