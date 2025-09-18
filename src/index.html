@@ -3,56 +3,57 @@
   <head>
     <meta charset="UTF-8" />
     <title>St John Resources</title>
-    <meta
-      name="viewport"
-      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes"
-    />
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <link rel="stylesheet" href="./style.css" />
     <meta name="theme-color" content="#da1a33" />
   </head>
   <body>
-    <!-- header -->
-    <header class="app-header">
-      <div class="toolbar">
-        <div
-          id="backBtn"
-          class="back-btn"
-          onclick="goBack()"
-          style="display: none"
-        >
-          <img src="icons/back.svg" alt="Back" />
+    <div class="main">
+      <!-- header -->
+      <header class="app-header">
+        <div class="nav-group">
+          <div id="backBtn" class="icon-btn back-btn" style="display: none" onclick="goBack()">
+            <img src="icons/back.svg" alt="Back" />
+          </div>
+
+          <!-- forward button -->
+          <div id="forwardBtn" class="icon-btn forward-btn" style="display: none" onclick="goForward()">
+            <img src="icons/forward.svg" alt="Forward" />
+          </div>
         </div>
 
+        <!-- title and version -->
         <div class="app-title-section">
           <h5 class="app-name">ST JOHN RESOURCES</h5>
           <span class="app-version">v1.0.0</span>
         </div>
 
-        <button
-          id="syncBtn"
-          class="sync-btn"
-          onclick="checkForUpdatesManually()"
-          title="Check for Updates"
-        >
+        <!-- sync button -->
+        <button id="syncBtn" class="icon-btn sync-btn" title="Check for Updates" onclick="checkForUpdatesManually()">
           <img src="icons/refresh.svg" alt="Refresh" />
         </button>
-      </div>
-    </header>
 
-    <!-- Content -->
-    <main id="content" class="app-content">
-      <ul id="websiteList" class="website-list">
-        <li onclick="loadPage('clinical-resources/index.html')">
-          <a>Clinical Resources</a>
-        </li>
+        <!-- close button -->
+        <div id="closeBtn" class="icon-btn close-btn" title="Close" style="display: none" onclick="closeView()">
+          <img src="icons/close.svg" alt="Close" />
+        </div>
+      </header>
 
-        <li onclick="loadPage('First-Aid-Guides/FirstAid.html.html')">
-          <a>First Aid Guides</a>
-        </li>
-      </ul>
-    </main>
+      <!-- content -->
+      <main id="content" class="app-content">
+        <ul id="websiteList" class="website-list">
+          <li onclick="loadPage('clinical-resources/index.html')">
+            <a>Clinical Resources</a>
+          </li>
+
+          <li onclick="loadPage('First-Aid-Guides/FirstAid.html.html')">
+            <a>First Aid Guides</a>
+          </li>
+        </ul>
+      </main>
+    </div>
 
     <script src="./index.js" type="module"></script>
     <script src="./capgo-updater.js" type="module"></script>

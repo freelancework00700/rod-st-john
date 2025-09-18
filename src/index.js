@@ -239,13 +239,30 @@ function loadPage(url) {
 }
 
 function displayHeader() {
-    const appNameEl = document.querySelector(".app-name");
+    const syncBtn = document.getElementById('syncBtn');
+    const backBtn = document.getElementById('backBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const forwardBtn = document.getElementById('forwardBtn');
+    const appNameVersionEl = document.querySelector('.app-title-section');
+
     if (currentUrl && currentUrl.includes("clinical-resources")) {
-        appNameEl.textContent = "CLINICAL RESOURCES";
+        appNameVersionEl.style.display = 'none';
+        if (syncBtn) syncBtn.style.display = 'none';
+        if (backBtn) backBtn.style.display = 'inline-block';
+        if (closeBtn) closeBtn.style.display = 'inline-block';
+        if (forwardBtn) forwardBtn.style.display = 'inline-block';
     } else if (currentUrl && currentUrl.includes("First-Aid-Guides")) {
-        appNameEl.textContent = "FIRST AID GUIDES";
+        appNameVersionEl.style.display = 'none';
+        if (syncBtn) syncBtn.style.display = 'none';
+        if (backBtn) backBtn.style.display = 'inline-block';
+        if (closeBtn) closeBtn.style.display = 'inline-block';
+        if (forwardBtn) forwardBtn.style.display = 'inline-block';
     } else {
-        appNameEl.textContent = "ST JOHN RESOURCES";
+        appNameVersionEl.style.display = 'flex';
+        if (backBtn) backBtn.style.display = 'none';
+        if (closeBtn) closeBtn.style.display = 'none';
+        if (forwardBtn) forwardBtn.style.display = 'none';
+        if (syncBtn) syncBtn.style.display = 'inline-block';
     }
 }
 
@@ -256,6 +273,7 @@ function goBack() {
         
         const iframe = document.getElementById("mainIframe");
         iframe.contentWindow.location.href = prevUrl;
+        displayHeader();
     } else {
         document.getElementById('content').innerHTML = siteListingHTML;
         document.getElementById('backBtn').style.display = "none";
@@ -267,8 +285,31 @@ function goBack() {
     }
 }
 
-window.loadPage = loadPage;
+function goForward() {
+    if (currentIndex < iframeHistory.length - 1) {
+        currentIndex++;
+        const nextUrl = iframeHistory[currentIndex];
+        const iframe = document.getElementById('mainIframe');
+        if (iframe && iframe.contentWindow) {
+            iframe.contentWindow.location.href = nextUrl;
+        }
+    }
+    displayHeader();
+}
+
+function closeView() {
+    const content = document.getElementById('content');
+    content.innerHTML = siteListingHTML;
+    iframeHistory = [];
+    currentIndex = -1;
+    currentUrl = null;
+    displayHeader();
+}
+
 window.goBack = goBack;
+window.loadPage = loadPage;
+window.closeView = closeView;
+window.goForward = goForward;
 
 // also intercept external links in the host document (if any)
 try { interceptExternalLinks(document); } catch (_) {}

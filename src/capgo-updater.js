@@ -453,15 +453,10 @@ window.checkForUpdatesManually = async function() {
   try {
     await checkForUpdates();
   } finally {
-    // reset sync button state after a delay
-    setTimeout(() => {
-      if (syncBtn) {
-        syncBtn.disabled = false;
-        syncBtn.innerHTML = `
-          <img src="icons/refresh.svg" alt="Refresh" />
-        `;
-      }
-    }, 2000);
+    if (syncBtn) {
+      syncBtn.disabled = false;
+      syncBtn.innerHTML = "<img src='icons/refresh.svg' alt='Refresh' />";
+    }
   }
 };
 

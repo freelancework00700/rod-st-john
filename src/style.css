@@ -1,131 +1,169 @@
 html,
 body {
-  padding: 0;
   margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 html {
   height: 100%;
 }
 
+.main {
+  height: 100%;
+  margin-top: 47px !important;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fff;
+  height: 100%;
   color: #333;
-  height: calc(100% - 80px);
+  background: #fff;
+  font-family: Arial, sans-serif;
 }
 
 .app-header {
-  background: #f8f8f8;
-  border-bottom: 1px solid #ddd;
   top: 0;
-  position: sticky;
-  min-height: 80px;
+  width: 100%;
+  height: 54px;
+  position: fixed;
+  background: #da1a32;
+  padding-top: env(safe-area-inset-top) !important;
 }
 
 .app-content {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  position: absolute;
+  top: calc(54px + env(safe-area-inset-top));
+}
+
+.app-content iframe {
+  width: 100%;
   height: 100%;
+  border: none;
+  display: block;
 }
 
 .toolbar {
   display: flex;
+  margin-top: 0px;
+  min-height: 54px;
+  padding: 0px 12px;
+  position: relative;
   align-items: center;
   justify-content: center;
-  padding: 8px 12px;
-  min-height: 44px;
-  position: relative;
 }
 
 .app-title-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
   gap: 1px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .app-name {
+  margin: 0;
+  color: #fff;
   font-size: 16px;
   font-weight: 700;
-  margin: 0;
   line-height: 1.2;
 }
 
 .app-version {
-  font-size: 11px;
-  color: #666;
-  font-weight: 500;
+  opacity: 80%;
+  color: #fff;
   line-height: 1;
+  font-size: 11px;
+  font-weight: 500;
+  margin-left: 5px;
 }
 
 .website-list {
-  list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .website-list li {
-  border-bottom: 1px solid #ddd;
   padding: 16px;
+  border-bottom: 1px solid #ddd;
 }
 
 .website-list li a {
   display: block;
-  font-weight: 700;
   font-size: 19px;
   color: #da1a33;
+  font-weight: 700;
   text-decoration: none;
 }
 
-.back-btn {
-  padding: 6px 10px;
-  cursor: pointer;
-  user-select: none;
+.back-btn,
+.forward-btn,
+.close-btn {
+  top: 50%;
+  left: 12px;
   display: flex;
+  color: #333;
+  cursor: pointer;
+  padding: 6px 10px;
+  user-select: none;
+  border-radius: 6px;
+  position: absolute;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
   transition: all 0.2s ease;
-  color: #333;
-  position: absolute;
-  top: 50%;
   transform: translateY(-50%);
-  left: 12px;
 }
 
-.back-btn:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-  color: #da1a33;
+.forward-btn {
+  left: 50px;
 }
 
-.back-btn img {
+.close-btn {
+  left: auto;
+  right: 12px;
+}
+
+.back-btn:hover,
+.forward-btn:hover,
+.close-btn:hover {
+  color: #da1a33 !important;
+  background: #da1a33 !important;
+}
+
+.back-btn img,
+.forward-btn img,
+.close-btn img {
   width: 20px;
   height: 20px;
 }
 
 .sync-btn {
-  background: #da1a33;
-  border: none;
-  border-radius: 6px;
-  padding: 6px 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(218, 26, 51, 0.2);
-  min-height: 32px;
-  position: absolute;
   top: 50%;
-  transform: translateY(-50%);
   right: 12px;
+  border: none;
+  display: flex;
+  color: white;
+  cursor: pointer;
+  min-height: 32px;
+  padding: 6px 10px;
+  position: absolute;
+  border-radius: 6px;
+  align-items: center;
+  background: #da1a33;
+  justify-content: center;
+  transition: all 0.2s ease;
+  transform: translateY(-50%);
   transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .sync-btn:hover {
-  background: #b8152a;
+  background: #da1a33;
   transform: translateY(-50%) scale(1.05);
   box-shadow: 0 4px 8px rgba(218, 26, 51, 0.3);
 }
@@ -136,16 +174,17 @@ body {
 }
 
 .sync-btn:disabled {
-  background: #6c757d;
-  cursor: not-allowed;
-  transform: translateY(-50%);
   box-shadow: none;
+  cursor: not-allowed;
+  background: #6c757d;
+  transform: translateY(-50%);
 }
 
 .sync-btn img {
-  transition: transform 0.3s ease;
   width: 20px;
   height: 20px;
+  filter: invert(100%);
+  transition: transform 0.3s ease;
 }
 
 .sync-btn:not(:disabled):hover img {
@@ -156,6 +195,7 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
